@@ -17,7 +17,7 @@ class CreatePasiensTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
             $table->date('tanggal_lahir');
-            $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
             $table->text('alamat');
             $table->timestamps();
         });

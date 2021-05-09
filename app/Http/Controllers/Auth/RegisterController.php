@@ -66,7 +66,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $userId = User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'no_phone' => $data['no_phone'],
@@ -74,9 +74,9 @@ class RegisterController extends Controller
             'image' => $data['image'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
-        ])->id;
-            
-        // dd($user_id);
+        ]);
+        
+        $userId = $user->id;
 
         $pasien = Pasien::create([
             'user_id' => $userId,
@@ -84,5 +84,7 @@ class RegisterController extends Controller
             'jenis_kelamin' => $data['jenis_kelamin'],
             'alamat' => $data['alamat']
         ]);
+
+        return $user;
     }
 }

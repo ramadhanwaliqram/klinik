@@ -18,3 +18,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//sidebar admin
+Route::get('/admin', 'AdminController@index')->name('admin');
+Route::get('/data-pasien', 'DataPasienController@index')->name('data-pasien');
+Route::get('/data-dokter', 'DataDokterController@index')->name('data-dokter');
+Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
+Route::get('/data-jadwal', 'JadwalController@index')->name('data-jadwal');
+
+
+
+Route::get('/dokter', 'DokterController@index')->name('dokter');

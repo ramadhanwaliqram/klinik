@@ -17,6 +17,7 @@ class CreateDoktersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id');
             $table->string('spesialis');
+            $table->string('jenis_kelamin');
             $table->timestamps();
         });
     }

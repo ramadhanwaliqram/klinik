@@ -322,6 +322,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
+                                            <th>Username</th>
                                             <th>No. Telp</th>
                                             <th>Alamat</th>
                                             <th>Jenis Kelamin</th>
@@ -428,7 +429,55 @@
     <script src="js/demo/chart-pie-demo.js"></script>
     <script>
         $(document).ready( function () {
-            $('#order-table').DataTable();
+            $('#order-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('data-dokter') }}",
+                    "complete": function(xhr, responseText){
+                        console.log(xhr);
+                        console.log(responseText); //*** responseJSON: Array[0]
+                    }
+                },
+                columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'username',
+                    name: 'username'
+                },
+                {
+                    data: 'no_phone',
+                    name: 'no_phone'
+                },
+                {
+                    data: 'alamat',
+                    name: 'alamat'
+                },
+                {
+                    data: 'jenis_kelamin',
+                    name: 'jenis_kelamin'
+                },
+                {
+                    data: 'tanggal_lahir',
+                    name: 'tanggal_lahir'
+                },
+                {
+                    data: 'spesialis',
+                    name: 'spesialis'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                },
+                ]
+            });
 
             $(".form-add-dokter").on("submit", function (e) {
                 e.preventDefault();

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Pasien;
+use App\Models\Admin;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PasienController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,7 @@ class PasienController extends Controller
     public function index()
     {
         //
-       
+        return view('admin.index');
     }
 
     /**
@@ -42,10 +43,10 @@ class PasienController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Pasien  $pasien
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function show(Pasien $pasien)
+    public function show(Admin $admin)
     {
         //
     }
@@ -53,10 +54,10 @@ class PasienController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Pasien  $pasien
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pasien $pasien)
+    public function edit(Admin $admin)
     {
         //
     }
@@ -65,10 +66,10 @@ class PasienController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pasien  $pasien
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pasien $pasien)
+    public function update(Request $request, Admin $admin)
     {
         //
     }
@@ -76,10 +77,10 @@ class PasienController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Pasien  $pasien
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pasien $pasien)
+    public function destroy(Admin $admin)
     {
         //
     }

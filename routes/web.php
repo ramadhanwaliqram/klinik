@@ -19,8 +19,32 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::namespace('Admin')
+    ->name('admin.')
+    ->middleware(['auth', 'admin'])
+    ->group(function () {
+        Route::get('/admin', 'AdminController@index')
+            ->name('index');
+});
+
+    Route::namespace('Dokter')
+    ->name('dokter.')
+    ->middleware(['auth', 'dokter'])
+    ->group(function () {
+        Route::get('/dokter', 'DokterController@index')
+            ->name('index');
+});
+
+Route::namespace('Pasien')
+    ->name('pasien.')
+    ->middleware(['auth', 'pasien'])
+    ->group(function () {
+        Route::get('/pasien', 'PasienController@index')
+            ->name('index');
+});
+
 //sidebar admin
-Route::get('/admin', 'AdminController@index')->name('admin');
+// Route::get('/admin', 'AdminController@index')->name('admin');
 Route::get('/data-pasien', 'DataPasienController@index')->name('data-pasien');
 Route::get('/data-dokter', 'DataDokterController@index')->name('data-dokter');
 Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
@@ -28,4 +52,4 @@ Route::get('/data-jadwal', 'JadwalController@index')->name('data-jadwal');
 
 
 
-Route::get('/dokter', 'DokterController@index')->name('dokter');
+// Route::get('/dokter', 'DokterController@index')->name('dokter');

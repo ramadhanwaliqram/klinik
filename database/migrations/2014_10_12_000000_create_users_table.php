@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('no_phone')->nullable();
             $table->string('username')->unique();
             $table->string('password');
+            $table->enum('role', ['admin', 'dokter', 'pasien']);
             $table->string('status')->nullable();
             $table->string('image')->nullable();
             $table->rememberToken();

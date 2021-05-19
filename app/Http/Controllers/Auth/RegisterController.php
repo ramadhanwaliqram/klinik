@@ -70,10 +70,11 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'no_phone' => $data['no_phone'],
-            'status' => 'pasien',
+            'status' => 'aktif',
             'image' => $data['image'],
             'username' => $data['username'],
             'password' => Hash::make($data['password']),
+            'role' => 'pasien',
         ]);
         
         $userId = $user->id;

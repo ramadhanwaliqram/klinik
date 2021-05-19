@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Dokter;
+use App\Models\Obat;
 use Illuminate\Http\Request;
 
-class DataDokterController extends Controller
+class DataObatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class DataDokterController extends Controller
     public function index()
     {
         //
-        return view('admin.dokter.dokter');
+        return view('admin.obat.obat');
     }
 
     /**
@@ -42,10 +42,10 @@ class DataDokterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Dokter  $dokter
+     * @param  \App\Models\Obat  $obat
      * @return \Illuminate\Http\Response
      */
-    public function show(Dokter $dokter)
+    public function show(Obat $obat)
     {
         //
     }
@@ -53,10 +53,10 @@ class DataDokterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Dokter  $dokter
+     * @param  \App\Models\Obat  $obat
      * @return \Illuminate\Http\Response
      */
-    public function edit(Dokter $dokter)
+    public function edit(Obat $obat)
     {
         //
     }
@@ -65,10 +65,10 @@ class DataDokterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Dokter  $dokter
+     * @param  \App\Models\Obat  $obat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Dokter $dokter)
+    public function update(Request $request, Obat $obat)
     {
         //
     }
@@ -76,10 +76,10 @@ class DataDokterController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Dokter  $dokter
+     * @param  \App\Models\Obat  $obat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dokter $dokter)
+    public function destroy(Obat $obat)
     {
         //
     }

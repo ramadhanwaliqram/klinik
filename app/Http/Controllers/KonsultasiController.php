@@ -15,6 +15,7 @@ class KonsultasiController extends Controller
     public function index()
     {
         //
+        return view('konsultasi');
     }
 
     /**

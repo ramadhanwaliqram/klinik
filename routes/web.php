@@ -24,7 +24,12 @@ Route::namespace('Admin')
     ->middleware(['auth', 'admin'])
     ->group(function () {
         Route::get('/admin', 'AdminController@index')
-            ->name('index');
+            ->name('admin');
+        Route::get('/data-pasien', 'DataPasienController@index')->name('data-pasien');
+        Route::get('/data-dokter', 'DataDokterController@index')->name('data-dokter');
+        Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
+        Route::get('/data-jadwal', 'DataJadwalController@index')->name('data-jadwal');
+
 });
 
     Route::namespace('Dokter')
@@ -32,7 +37,8 @@ Route::namespace('Admin')
     ->middleware(['auth', 'dokter'])
     ->group(function () {
         Route::get('/dokter', 'DokterController@index')
-            ->name('index');
+            ->name('dokter');
+        
 });
 
 Route::namespace('Pasien')
@@ -40,15 +46,18 @@ Route::namespace('Pasien')
     ->middleware(['auth', 'pasien'])
     ->group(function () {
         Route::get('/pasien', 'PasienController@index')
-            ->name('index');
+            ->name('pasien');
+
 });
 
 //sidebar admin
-// Route::get('/admin', 'AdminController@index')->name('admin');
-Route::get('/data-pasien', 'DataPasienController@index')->name('data-pasien');
-Route::get('/data-dokter', 'DataDokterController@index')->name('data-dokter');
-Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
-Route::get('/data-jadwal', 'JadwalController@index')->name('data-jadwal');
+Route::get('/rekam-medis', 'RekamMedisController@index')->name('rekam-medis');
+Route::get('/apotek', 'ObatController@index')->name('apotek');
+Route::get('/konsultasi', 'KonsultasiController@index')->name('konsultasi');
+Route::get('/tagihan', 'ObatController@index')->name('tagihan');
+
+
+
 
 
 

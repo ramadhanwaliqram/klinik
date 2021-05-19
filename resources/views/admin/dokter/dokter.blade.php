@@ -429,6 +429,21 @@
     <script>
         $(document).ready( function () {
             $('#order-table').DataTable();
+
+            $(".form-add-dokter").on("submit", function (e) {
+                e.preventDefault();
+                let data = {};
+
+                $.each($(this).serializeArray(), function() {
+                    data[this.name] = this.value;
+                });
+                $.post("{{route('admin.dokter-add')}}", data).done(data => {
+                    alert("berhasil tambah dokter")
+                }).fail((err) => {
+                   alert("gagal");
+                })
+            })
+
         } );
 
         $('#add').on('click', function() {

@@ -23,8 +23,11 @@ Route::namespace('Admin')
     ->name('admin.')
     ->middleware(['auth', 'admin'])
     ->group(function () {
-        Route::get('/admin', 'AdminController@index')
-            ->name('index');
+        Route::get('/admin', 'AdminController@index')->name('index');
+        Route::post('/dokter', "DokterController@store")->name("dokter-add");
+        Route::delete('/dokter', "DokterController@destroy")->name("dokter-delete");
+        Route::put('/dokter', "DokterController@update")->name("dokter-edit");
+
 });
 
     Route::namespace('Dokter')

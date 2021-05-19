@@ -18,6 +18,8 @@ class CreateDoktersTable extends Migration
             $table->bigInteger('user_id');
             $table->string('spesialis');
             $table->string('jenis_kelamin');
+            $table->date('tanggal_lahir');
+            $table->string('alamat');
             $table->timestamps();
         });
     }

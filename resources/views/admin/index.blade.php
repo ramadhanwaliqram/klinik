@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{route('admin.index')}}">
+                <a class="nav-link" href="{{route('admin.admin')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -61,7 +61,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link " href="{{route('data-dokter')}}"
+                <a class="nav-link " href="{{route('admin.data-dokter')}}"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Dokter</span>
@@ -70,21 +70,21 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{{route('data-pasien')}}">
+                <a class="nav-link" href="{{route('admin.data-pasien')}}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Pasien</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="{{route('data-jadwal')}}">
+                <a class="nav-link" href="{{route('admin.data-jadwal')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Jadwal</span></a>
             </li>
 
              <!-- Nav Item - Tables -->
              <li class="nav-item">
-                <a class="nav-link" href="{{route('data-obat')}}">
+                <a class="nav-link" href="{{route('admin.data-obat')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Obat</span></a>
             </li>

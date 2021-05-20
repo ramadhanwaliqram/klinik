@@ -36,7 +36,7 @@ class LoginController extends Controller
             $this->redirectTo = route('dokter.dokter');
             return $this->redirectTo;
         }else if(auth()->user()->role == 'pasien'){
-            $this->redirectTo = route('pasien.pasien');
+            $this->redirectTo = route('depan');
             return $this->redirectTo;
         } else {
             $this->redirectTo = route('home');

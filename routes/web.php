@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('depan');
 
 Auth::routes();
 
@@ -50,8 +50,11 @@ Route::namespace('Pasien')
     ->group(function () {
         Route::get('/pasien', 'PasienController@index')
             ->name('pasien');
+            
+            
+        });
 
-});
+Route::resource('konsultasi', 'KonsultasiController');
 
 //sidebar admin
 Route::get('/rekam-medis', 'RekamMedisController@index')->name('rekam-medis');

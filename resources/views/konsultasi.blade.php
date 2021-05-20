@@ -61,29 +61,33 @@
           <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
         </div>
 
-        <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
+        <form action="" method="post" id="form-konsultasi" role="form" class="form-konsultasi php-email-form">
+          @csrf
+          @method('POST')
           <div class="form-row">
           <div class="col-md-4 form-group">
-              <select name="department" id="department" class="form-control">
+              <select name="dokter" id="dokter" class="form-control">
                 <option value="">Pilih Dokter</option>
-                <option value="Department 1">Dokter 1</option>
-                <option value="Department 2">Dokter 2</option>
-                <option value="Department 3">Dokter 3</option>
+                @foreach ($dokters as $dokter)
+                <option value="{{$dokter->id}}">{{ $dokter->name }}</option>
+                @endforeach
               </select>
               <div class="validate"></div>
             </div>
           </div>
 
           <div class="form-group">
-            <textarea class="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
+            <textarea class="form-control" id="text" name="text" rows="5" placeholder="Message (Optional)"></textarea>
             <div class="validate"></div>
           </div>
-          <div class="mb-3">
+          {{-- <div class="mb-3">
             <div class="loading">Loading</div>
             <div class="error-message"></div>
             <div class="sent-message" style="background-color: red">Permintaan kamu sedang diperoses, harap sabar ya!. Thank you!</div>
+          </div> --}}
+          <div class="text-center" >
+            <button type="submit" style="background-color: red">Konsultasi</button>
           </div>
-          <div class="text-center" ><button type="submit" style="background-color: red">Konsultasi</button></div>
         </form>
 
       </div>
@@ -129,5 +133,23 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script>
+    $(document).ready( function () {
+      $(".form-konsultasi").on("submit", function (e) {
+          e.preventDefault();
+          let data = {};
+
+          $.each($(this).serializeArray(), function() {
+              data[this.name] = this.value;
+          });
+          $.post("{{route('konsultasi.store')}}", data).done(data => {
+              alert("berhasil tambah dokter")
+              location.reload()
+          }).fail((err) => {
+              alert("gagal");
+          })
+      })
+    });
+  </script>
 
   @endsection

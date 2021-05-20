@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Dokter;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 
 
@@ -14,9 +15,31 @@ class DataDokterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = Dokter::all();
+        if($request->ajax()){
+            return DataTables::of($data)
+            ->addColumn('action', function ($data) {
+                $button = '<button type="button" id="'.$data->id.'" class="edit btn btn-mini btn-info shadow-sm">Edit</button>';
+                $button .= '&nbsp;&nbsp;&nbsp;<button type="button" id="'.$data->id.'" class="delete btn btn-mini btn-danger shadow-sm">Delete</button>';
+                return $button;
+            })
+            ->editColumn('user_id', function ($data) {
+                return $data->id;
+            })
+            ->editColumn("name", function($data){
+                return $data->user->name;
+            })
+            ->editColumn("username", function($data){
+                return $data->user->username;
+            })
+            ->editColumn("no_phone", function($data){
+                return $data->user->no_phone;
+            })
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('admin.dokter.dokter');
     }
 

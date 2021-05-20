@@ -10,9 +10,8 @@
         </button>
       </div>
       <div class="modal-body p-4">
-        <form id="form-pesan" action="">
+        <form class="form-add-dokter" method="POST">
           @csrf
-
           <div class="row">
             <input type="hidden" name="hidden_id" id="hidden_id" class="form-control form-control-sm">
 
@@ -20,6 +19,22 @@
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Nama Dokter</label>
                 <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama Dokter">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group bmd-form-group">
+                <label class="bmd-label-floating">Username</label>
+                <input type="text" name="username" id="username" class="form-control form-control-sm" placeholder="Username">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group bmd-form-group">
+                <label class="bmd-label-floating">Password</label>
+                <input type="password" name="password" id="password" class="form-control form-control-sm" placeholder="Password">
               </div>
             </div>
           </div>
@@ -42,7 +57,7 @@
               </div>
             </div>
           </div>
-          
+
 
           <div class="row">
             <div class="col-md-6">

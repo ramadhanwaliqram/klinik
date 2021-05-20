@@ -46,7 +46,8 @@
 <li class="nav-item active">
     <a class="nav-link" href="{{route('admin.index')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
+        <span>Dashboard</span>
+    </a>
 </li>
 
 <!-- Divider -->
@@ -322,6 +323,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
+                                            <th>Username</th>
                                             <th>No. Telp</th>
                                             <th>Alamat</th>
                                             <th>Jenis Kelamin</th>
@@ -428,7 +430,70 @@
     <script src="js/demo/chart-pie-demo.js"></script>
     <script>
         $(document).ready( function () {
-            $('#order-table').DataTable();
+            $('#order-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('admin.data-dokter') }}",
+                    "complete": function(xhr, responseText){
+                        console.log(xhr);
+                        console.log(responseText); //*** responseJSON: Array[0]
+                    }
+                },
+                columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'username',
+                    name: 'username'
+                },
+                {
+                    data: 'no_phone',
+                    name: 'no_phone'
+                },
+                {
+                    data: 'alamat',
+                    name: 'alamat'
+                },
+                {
+                    data: 'jenis_kelamin',
+                    name: 'jenis_kelamin'
+                },
+                {
+                    data: 'tanggal_lahir',
+                    name: 'tanggal_lahir'
+                },
+                {
+                    data: 'spesialis',
+                    name: 'spesialis'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                },
+                ]
+            });
+
+            $(".form-add-dokter").on("submit", function (e) {
+                e.preventDefault();
+                let data = {};
+
+                $.each($(this).serializeArray(), function() {
+                    data[this.name] = this.value;
+                });
+                $.post("{{route('admin.dokter-add')}}", data).done(data => {
+                    alert("berhasil tambah dokter")
+                }).fail((err) => {
+                   alert("gagal");
+                })
+            })
+
         } );
 
         $('#add').on('click', function() {

@@ -46,7 +46,8 @@
 <li class="nav-item active">
     <a class="nav-link" href="{{route('admin.index')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
+        <span>Dashboard</span>
+    </a>
 </li>
 
 <!-- Divider -->
@@ -433,7 +434,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('data-dokter') }}",
+                    url: "{{ route('admin.data-dokter') }}",
                     "complete": function(xhr, responseText){
                         console.log(xhr);
                         console.log(responseText); //*** responseJSON: Array[0]

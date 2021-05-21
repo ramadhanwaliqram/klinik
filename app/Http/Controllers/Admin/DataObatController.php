@@ -6,7 +6,6 @@ use App\Models\Obat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-
 class DataObatController extends Controller
 {
     /**
@@ -16,7 +15,6 @@ class DataObatController extends Controller
      */
     public function index()
     {
-        //
         return view('admin.obat.obat');
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Konsultasi;
+use App\Models\Dokter;
 use Illuminate\Http\Request;
 
 class KonsultasiController extends Controller
@@ -14,8 +15,9 @@ class KonsultasiController extends Controller
      */
     public function index()
     {
-        //
-        return view('konsultasi');
+        $dokters = Dokter::join('users', 'users.id', 'dokters.user_id')->get();
+        // dd($dokters);
+        return view('konsultasi', ['dokters' => $dokters]);
     }
 
     /**
@@ -31,12 +33,20 @@ class KonsultasiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $requestuestuest
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        Konsultasi::create([
+            'text'      => $request['text'],
+            'dokter_id' => $request['dokter'],
+            'pasien_id' => auth()->user()->id
+        ]);
+
+        return response()
+            ->json([
+                'success' => 'Konsultasi Berhasil.',
+        ]);
     }
 
     /**
@@ -64,11 +74,11 @@ class KonsultasiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $requestuestuest
      * @param  \App\Models\Konsultasi  $konsultasi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Konsultasi $konsultasi)
+    public function update(Request $requestuestuest, Konsultasi $konsultasi)
     {
         //
     }

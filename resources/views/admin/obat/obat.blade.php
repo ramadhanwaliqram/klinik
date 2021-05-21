@@ -44,7 +44,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-    <a class="nav-link" href="{{route('admin.admin')}}">
+    <a class="nav-link" href="{{route('admin.index')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
 </li>
@@ -330,7 +330,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="text-left">
-                                        
+
                                     </tbody>
                                 </table>
                             </div>

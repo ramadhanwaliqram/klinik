@@ -41,7 +41,9 @@ Route::namespace('Dokter')
     ->group(function () {
         Route::get('/dokter', 'DokterController@index')
             ->name('dokter');
-
+        Route::get('/rekam-medis-dokter','RekamMedikDokterController@index')->name('rekam-medis');
+        Route::get('/jadwal-dokter','JadwalDokterController@index')->name('jadwal-dokter');
+        Route::get('/konsultasi-dokter', 'KonsultasiDokterController@index')->name('konsultasi-dokter');
 });
 
 Route::namespace('Pasien')

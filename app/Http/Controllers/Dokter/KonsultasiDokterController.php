@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Dokter;
 
-use App\Models\Konsultasi;
-use App\Models\Dokter;
+use App\Models\{Konsultasi,Dokter,Pasien};
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class KonsultasiDokterController extends Controller
 {
@@ -16,8 +19,13 @@ class KonsultasiDokterController extends Controller
      */
     public function index()
     {
-        
-        return view('dokter.konsultasi-dokter.konsultasi-dokter');
+        $user = Auth::user();
+        $userList = DB::table('konsultasis')
+                    ->select("pasien_id")
+                    ->distinct()
+                    ->where("dokter_id", $user->dokter->id)
+                    ->get();
+        return view('dokter.konsultasi-dokter.konsultasi-dokter', ["userList"=>$userList]);
     }
 
     /**
@@ -36,16 +44,18 @@ class KonsultasiDokterController extends Controller
      * @param  \Illuminate\Http\Request  $requestuestuest
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request, $pasien_id) {
         Konsultasi::create([
             'text'      => $request['text'],
-            'dokter_id' => $request['dokter'],
-            'pasien_id' => auth()->user()->id
+            'dokter_id' => auth()->user()->id,
+            'pasien_id' => $pasien_id,
+            "from" => "dokter"
         ]);
 
         return response()
             ->json([
-                'success' => 'Konsultasi Berhasil.',
+                'success' => true,
+                "text" => $request["text"]
         ]);
     }
 
@@ -55,9 +65,10 @@ class KonsultasiDokterController extends Controller
      * @param  \App\Models\Konsultasi  $konsultasi
      * @return \Illuminate\Http\Response
      */
-    public function show(Konsultasi $konsultasi)
+    public function show($pasien_id)
     {
-        //
+        $konsultasi = Konsultasi::where("dokter_id", Auth::user()->dokter->id)->where("pasien_id", $pasien_id)->get();
+        return response()->json($konsultasi);
     }
 
     /**

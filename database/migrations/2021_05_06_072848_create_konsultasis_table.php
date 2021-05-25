@@ -16,6 +16,7 @@ class CreateKonsultasisTable extends Migration
         Schema::create('konsultasis', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('text');
+            $table->enum('from', ["dokter", "pasien"]);
             $table->bigInteger('pasien_id');
             $table->bigInteger('dokter_id');
             $table->timestamps();

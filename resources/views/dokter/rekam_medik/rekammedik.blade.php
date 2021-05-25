@@ -28,15 +28,15 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-       <!-- Sidebar -->
-       <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+      <!-- Sidebar -->
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
     <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
     </div>
-    <div class="sidebar-brand-text mx-3">Admin</div>
+    <div class="sidebar-brand-text mx-3">Dokter</div>
 </a>
 
 <!-- Divider -->
@@ -44,7 +44,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-    <a class="nav-link" href="{{route('admin.index')}}">
+    <a class="nav-link" href="{{route('dokter.dokter')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
 </li>
@@ -62,32 +62,38 @@
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
-    <a class="nav-link " href="{{route('admin.data-dokter')}}"
+    <a class="nav-link " href="{{route('dokter.rekam-medis')}}"
         aria-expanded="true" aria-controls="collapsePages">
         <i class="fas fa-fw fa-folder"></i>
-        <span>Dokter</span>
+        <span>Rekam Medik</span>
     </a>
 </li>
 
 <!-- Nav Item - Charts -->
 <li class="nav-item">
-    <a class="nav-link" href="{{route('admin.data-pasien')}}">
+    <a class="nav-link" href="{{route('dokter.jadwal-dokter')}}">
         <i class="fas fa-fw fa-chart-area"></i>
-        <span>Pasien</span></a>
-</li>
-
-<!-- Nav Item - Tables -->
-<li class="nav-item">
-    <a class="nav-link" href="{{route('admin.data-jadwal')}}">
-        <i class="fas fa-fw fa-table"></i>
         <span>Jadwal</span></a>
 </li>
 
- <!-- Nav Item - Tables -->
- <li class="nav-item">
-    <a class="nav-link" href="{{route('admin.data-obat')}}">
+<li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Pasien</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="buttons.html">Data Pasien</a>
+                    </div>
+                </div>
+            </li>
+
+<!-- Nav Item - Tables -->
+<li class="nav-item">
+    <a class="nav-link" href="{{route('dokter.konsultasi-dokter')}}">
         <i class="fas fa-fw fa-table"></i>
-        <span>Obat</span></a>
+        <span>Konsultasi</span></a>
 </li>
 
 <!-- Divider -->
@@ -303,8 +309,9 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Jadwal</h1>
-                    
+                        <h1 class="h3 mb-0 text-gray-800">Rekam Medis</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
 
                     <!-- Content Row -->
@@ -320,11 +327,14 @@
                                     <thead class="text-left">
                                         <tr>
                                             <th>No</th>
+                                            <th>Nama Pasien</th>
                                             <th>Nama Dokter</th>
-                                            <th>No. Telp</th>
-                                            <th>Tanggal Jadwal</th>
-                                            <th>Jam Jadwal</th>
-                                            <th>Keterangan</th>
+                                            <th>Jadwal Rekam Medis</th>
+                                            <th>Keluhan</th>
+                                            <th>Diagnosa</th>
+                                            <th>Tindakan</th>
+                                            <th>Catatan</th>
+                                            <th>Obat</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -356,9 +366,7 @@
         </div>
     </div>
 </div>
-
-{{-- Modal --}}
-@include('admin.jadwal.modals._jadwal')
+@include('dokter.rekam_medik.modals._medis')
 
                 </div>
                 <!-- /.container-fluid -->
@@ -425,155 +433,11 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script>
-        $(document).ready(function () {
-
-            $('#add').on('click', function () {
-               
-                $('#modal-jadwal').modal('show');
-                        $('#action').val('add');
-                            $('#form-jadwal')[0].reset();
-
-            });
-
-            // $('#create_date').dateDropper({
-            //     theme: 'leaf',
-            //     format: 'd-m-Y'
-            // });
-
-            // $('#order-table').DataTable();
-
-            $('#order-table').DataTable({
-                processing: true,
-                serverSide: true,
-                
-                ajax: {
-                    url: "{{ route('admin.data-jadwal') }}",
-                },
-                columns: [
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'no_phone',
-                    name: 'no_phone'
-                },
-                {
-                    data: 'tanggal_jadwal',
-                    name: 'tanggal_jadwal'
-                },
-                {
-                    data: 'jam',
-                    name: 'jam'
-                },
-                {
-                    data: 'keterangan',
-                    name: 'keterangan'
-                },
-                {
-                    data: 'action',
-                    name: 'action'
-                }
-                ]
-            });
-
-            $('#form-jadwal').on('submit', function (event) {
-                event.preventDefault();
-
-                var url = '';
-                var text ='';
-                if ($('#action').val() == 'add') {
-                    url = "{{ route('admin.jadwal.add') }}";
-                    text = "Data berhasil ditambah";
-
-                }
-
-                if ($('#action').val() == 'edit') {
-                    url = "{{ route('admin.jadwal.jadwal-update') }}";
-                    text = "Data berhasil diupdate";
-
-                }
-
-                var formData = new FormData($('#form-jadwal')[0]);
-                
-                $.ajax({
-                    url: url,
-                    method: 'POST',
-                    data: formData,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function (data) {
-                        var html = ''
-                        if (data.errors) {
-                            html = data.errors[0];
-                            $('#community_name').addClass('is-invalid');
-                            $('#vm').addClass('is-invalid');
-                        }
-
-                        if (data.success) {
-                        $('#modal-jadwal').modal('hide')
-                        $('#order-table').DataTable().ajax.reload();
-                        }
-                    },
-                    error: function(errors){
-                        toastr.error(errors);
-                        
-                    }
-                });
-            });
-
-            $(document).on('click', '.edit', function () {
-                var id = $(this).attr('id');
-                $.ajax({
-                    url: '/jadwal-dokter/jadwal/'+id,
-                    dataType: 'JSON',
-                    success: function (data) {
-                        console.log(data);
-                        $('#action').val('edit');
-                        $('#name').val(data.data[0].dok_id);
-                        $('#no_telp').val(data.data[0].no_phone);
-                        $('#tanggal_jadwal').val(data.data[0].tanggal_jadwal);
-                        $('#jam').val(data.data[0].jam);
-                        $('#nama_jadwal').val(data.data[0].nama_jadwal);
-                        $('#keterangan').val(data.data[0].keterangan);
-                        $('#hidden_id').val(data.data[0].id);
-                        $('.btn-boy')
-                            .removeClass('btn-success')
-                            .addClass('btn-info')
-                            .val('Update');
-                        $('#modal-jadwal').modal('show');
-                    }
-                });
-            });
-
-            var user_id;
-            $(document).on('click', '.delete', function () {
-                user_id = $(this).attr('id');
-                $('#ok_button').text('Hapus');
-                $('#confirmModal').modal('show');
-            });
-
-            $('#ok_button').click(function () {
-                $.ajax({
-                    url: '/jadwal/hapus/'+user_id,
-                    beforeSend: function () {
-                        $('#ok_button').text('Menghapus...');
-                    }, success: function (data) {
-                        setTimeout(function () {
-                            $('#confirmModal').modal('hide');
-                            $('#order-table').DataTable().ajax.reload();
-                            // toastr.success('Data berhasil dihapus');
-                            Swal.fire('Sukses!', 'Data berhasi dihapus!', 'success');
-                        }, 1000);
-                    }
-                });
-            });
-
+        $(document).ready( function () {
+    $('#order-table').DataTable();
+} );
+$('#add').on('click', function() {
+            $('#modal-medis').modal('show');
         });
     </script>
 

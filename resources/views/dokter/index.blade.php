@@ -61,14 +61,14 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="{{route('dokter.rekam-medis')}}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Rekam Medik</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{route('dokter.jadwal-dokter')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Jadwal</span></a>
             </li>
@@ -82,14 +82,13 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="buttons.html">Data Pasien</a>
-                        <a class="collapse-item" href="cards.html">Data Obat Pasien</a>
                     </div>
                 </div>
             </li>
 
              <!-- Nav Item - Tables -->
              <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{route('dokter.konsultasi-dokter')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Konsultasi</span></a>
             </li>

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dokter;
 
-use App\Models\Obat;
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class DataObatController extends Controller
+
+class JadwalDokterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,8 @@ class DataObatController extends Controller
      */
     public function index()
     {
-        return view('admin.obat.obat');
+        //
+        return view('dokter.jadwal-dokter.jadwal-dokter');
     }
 
     /**
@@ -42,10 +44,10 @@ class DataObatController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Obat  $obat
+     * @param  \App\Models\Jadwal  $jadwal
      * @return \Illuminate\Http\Response
      */
-    public function show(Obat $obat)
+    public function show(Jadwal $jadwal)
     {
         //
     }
@@ -53,10 +55,10 @@ class DataObatController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Obat  $obat
+     * @param  \App\Models\Jadwal  $jadwal
      * @return \Illuminate\Http\Response
      */
-    public function edit(Obat $obat)
+    public function edit(Jadwal $jadwal)
     {
         //
     }
@@ -65,10 +67,10 @@ class DataObatController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Obat  $obat
+     * @param  \App\Models\Jadwal  $jadwal
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Obat $obat)
+    public function update(Request $request, Jadwal $jadwal)
     {
         //
     }
@@ -76,10 +78,10 @@ class DataObatController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Obat  $obat
+     * @param  \App\Models\Jadwal  $jadwal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Obat $obat)
+    public function destroy(Jadwal $jadwal)
     {
         //
     }

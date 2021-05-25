@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKonsultasisTable extends Migration
+class CreateTagihansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateKonsultasisTable extends Migration
      */
     public function up()
     {
-        Schema::create('konsultasis', function (Blueprint $table) {
+        Schema::create('tagihans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('text');
-            $table->enum('from', ["dokter", "pasien"]);
             $table->bigInteger('pasien_id');
-            $table->bigInteger('dokter_id');
+            $table->string('judul_tagihan');
+            $table->string('total_tagihan');
+            $table->string('catatan');
+            $table->string('nama_dokter');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateKonsultasisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('konsultasis');
+        Schema::dropIfExists('tagihans');
     }
 }

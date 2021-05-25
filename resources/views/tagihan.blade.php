@@ -1,6 +1,6 @@
 @extends('layouts.head')
 
-
+ 
   @section('content')
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us">
@@ -57,66 +57,28 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Konsultasi</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <h2>Tagihan Medis</h2>
         </div>
-
-        <form action="" method="post" id="form-konsultasi" role="form" class="form-konsultasi php-email-form">
-          @csrf
-          @method('POST')
-          @if ($konsultasi)
-          <input type="hidden" id="dokter" name="dokter" value={{$konsultasi[0]->dokter_id}}>
-          <div class="msg-container col-md-12 col-xs-12">
-              @foreach ($konsultasi as $item)
-                <div class="col-md-12 col-xs-12">
-                    <div class="chat-msg {{$item->from == "pasien" ? "box-blue" : "box-gray"}}">
-                        <img class="profile" ng-src=" " />
-                        <p>{{$item->text}}</p>
-                    </div>
-                </div>
-              @endforeach
-            </div>
-
-            <div class="col-md-12 col-xs-12 chat-bottom-bar" id="chat-send">
-                <div class="input-group" >
-                <input type="text" class="form-control input-sm chat-input" name="text" placeholder="Ketik disini..."/>
-                <span class="input-group-btn">
-                    <button class="btn btn-sm chat-submit-button" id="send-chat-btn" style="background-color:lightgreen; color:black">
-                        Kirim Chat
-                    </button>
-                </span>
-                </div>
-            </div>
-          @else
-          <div class="form-row">
-            <div class="col-md-4 form-group">
-                <select name="dokter" id="dokter" class="form-control">
-                  <option value="">Pilih Dokter</option>
-                  @foreach ($dokters as $dokter)
-                  <option value="{{$dokter->id}}">{{ $dokter->user->name }}</option>
-                  @endforeach
-                </select>
-                <div class="validate"></div>
-              </div>
-            </div>
-            <div class="form-group">
-                <textarea class="form-control" id="text" name="text" rows="5" placeholder="Message (Optional)"></textarea>
-                <div class="validate"></div>
-              </div>
-              <div class="text-center" >
-                <button type="submit" style="background-color: red">Konsultasi</button>
-              </div>
-          @endif
-        </form>
-
+        <div class="row">
+        <div class="col-lg-6 mt-4 mt-lg-0">
+  <div class="member d-flex align-items-start">
+    <div class="member-info">
+      <h4>Tagihan Obat ( Terduga Kanker )</h4>
+      <span>2021 - 02 - 12</span>
+      <p>Dokter : Johny Mafouds</p>
+      <div class="social">
+      <button class=" btn btn-danger btn-rounded-circle">
+            Lihat Detail
+        </button>
       </div>
+    </div>
+  </div>
+</div>
 
-
-
-
-
+</div>
+      </div>
     </section><!-- End Appointment Section -->
-
+   
   <!-- ======= Footer ======= -->
   <footer id="footer">
 
@@ -157,23 +119,5 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script>
-    $(document).ready( function () {
-      $(".form-konsultasi").on("submit", function (e) {
-          e.preventDefault();
-          let data = {};
-
-          $.each($(this).serializeArray(), function() {
-              data[this.name] = this.value;
-          });
-          $.post("{{route('konsultasi.store')}}", data).done(data => {
-              alert("konsultasi terkirim")
-              location.reload()
-          }).fail((err) => {
-              alert("gagal");
-          })
-      })
-    });
-  </script>
 
   @endsection

@@ -28,6 +28,8 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="plugins/css/style.css">
+
 
   <!-- =======================================================
   * Template Name: Medilab - v2.1.1
@@ -65,16 +67,46 @@
           <li class="drop-down"><a href="">Apotek</a>
             <ul>
             <li><a href="{{route('apotek')}}">Apotek</a></li>
-            <li><a href="">Tagihan</a></li>
+            <li><a href="{{route('tagihan')}}">Tagihan</a></li>
             </ul>
           </li>
           <li><a href="{{route('rekam-medis')}}">Rekam Medis</a></li>
           <li><a href="{{route('konsultasi')}}">Konsultasi</a></li>
           <li><a href="/#doctors">Dokter</a></li>
+          @guest
+          <li class="drop-down"><a href="#">Akses</a>
+            <ul>
+              <li>
+                  <a href="{{ route('login') }}">{{ __('Login') }}</a>
+              </li>
+              @if (Route::has('register'))
+                  <li>
+                      <a href="{{ route('register') }}">{{ __('Register') }}</a>
+                  </li>
+              @endif
+            </ul>
+          </li>
+
+          @else
+          <li class="drop-down">
+            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+              {{ Auth::user()->name }} <span class="caret"></span></a>
+            <ul>
+              <li><a href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                              document.getElementById('logout-form').submit();">
+                 {{ __('Logout') }}
+             </a>
+
+             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                 @csrf
+             </form></li>
+            </ul>
+          </li>
+          @endguest
         </ul>
       </nav><!-- .nav-menu -->
-
-      <a href="{{route('login')}}" class="appointment-btn scrollto" style="background-color: red">Masuk</a>
+      {{-- <a href="{{route('login')}}" class="appointment-btn scrollto" style="background-color: red">Masuk</a> --}}
 
     </div>
   </header><!-- End Header -->

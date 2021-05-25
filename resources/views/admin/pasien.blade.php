@@ -44,7 +44,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-    <a class="nav-link" href="{{route('admin.admin')}}">
+    <a class="nav-link" href="{{route('admin.index')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
 </li>
@@ -422,9 +422,140 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script>
-        $(document).ready( function () {
-    $('#order-table').DataTable();
-} );
+        $(document).ready(function () {
+
+            // $('#create_date').dateDropper({
+            //     theme: 'leaf',
+            //     format: 'd-m-Y'
+            // });
+
+            // $('#order-table').DataTable();
+
+            $('#order-table').DataTable({
+                processing: true,
+                serverSide: true,
+                
+                ajax: {
+                    url: "{{ route('admin.data-pasien') }}",
+                },
+                columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'no_phone',
+                    name: 'no_phone'
+                },
+                {
+                    data: 'alamat',
+                    name: 'alamat'
+                },
+                {
+                    data: 'jenis_kelamin',
+                    name: 'jenis_kelamin'
+                },
+                {
+                    data: 'tanggal_lahir',
+                    name: 'tanggal_lahir'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                }
+                ]
+            });
+
+            $('#form-jadwal').on('submit', function (event) {
+                event.preventDefault();
+
+                if ($('#action').val() == 'edit') {
+                    url = "{{ route('admin.data-pasien.update') }}";
+                    text = "Data berhasil diupdate";
+
+                }
+
+                var formData = new FormData($('#form-jadwal')[0]);
+                
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        var html = ''
+                        if (data.errors) {
+                            html = data.errors[0];
+                            $('#community_name').addClass('is-invalid');
+                            $('#vm').addClass('is-invalid');
+                        }
+
+                        if (data.success) {
+                        $('#modal-jadwal').modal('hide')
+                        $('#order-table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function(errors){
+                        toastr.error(errors);
+                        
+                    }
+                });
+            });
+
+            $(document).on('click', '.edit', function () {
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: '/data-pasien/pasien/'+id,
+                    dataType: 'JSON',
+                    success: function (data) {
+                        console.log(data);
+                        $('#action').val('edit');
+                        $('#name').val(data.data[0].dok_id);
+                        $('#no_telp').val(data.data[0].no_phone);
+                        $('#tanggal_jadwal').val(data.data[0].tanggal_jadwal);
+                        $('#jam').val(data.data[0].jam);
+                        $('#nama_jadwal').val(data.data[0].nama_jadwal);
+                        $('#keterangan').val(data.data[0].keterangan);
+                        $('#hidden_id').val(data.data[0].id);
+                        $('.btn-boy')
+                            .removeClass('btn-success')
+                            .addClass('btn-info')
+                            .val('Update');
+                        $('#modal-jadwal').modal('show');
+                    }
+                });
+            });
+
+            var user_id;
+            $(document).on('click', '.delete', function () {
+                user_id = $(this).attr('id');
+                $('#ok_button').text('Hapus');
+                $('#confirmModal').modal('show');
+            });
+
+            $('#ok_button').click(function () {
+                $.ajax({
+                    url: '/data-pasien/hapus/'+user_id,
+                    beforeSend: function () {
+                        $('#ok_button').text('Menghapus...');
+                    }, success: function (data) {
+                        setTimeout(function () {
+                            $('#confirmModal').modal('hide');
+                            $('#order-table').DataTable().ajax.reload();
+                            // toastr.success('Data berhasil dihapus');
+                            Swal.fire('Sukses!', 'Data berhasi dihapus!', 'success');
+                        }, 1000);
+                    }
+                });
+            });
+
+        });
     </script>
 
 </body>

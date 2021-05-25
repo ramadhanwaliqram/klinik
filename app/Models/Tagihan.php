@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Jadwal extends Model
+class Tagihan extends Model
 {
-    //
-    
     protected $guarded = [];
+    //
 }

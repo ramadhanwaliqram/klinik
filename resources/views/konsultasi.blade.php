@@ -1,6 +1,6 @@
 @extends('layouts.head')
 
- 
+
   @section('content')
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us">
@@ -64,35 +64,59 @@
         <form action="" method="post" id="form-konsultasi" role="form" class="form-konsultasi php-email-form">
           @csrf
           @method('POST')
-          <div class="form-row">
-          <div class="col-md-4 form-group">
-              <select name="dokter" id="dokter" class="form-control">
-                <option value="">Pilih Dokter</option>
-                @foreach ($dokters as $dokter)
-                <option value="{{$dokter->id}}">{{ $dokter->name }}</option>
-                @endforeach
-              </select>
-              <div class="validate"></div>
+          @if ($konsultasi)
+          <input type="hidden" id="dokter" name="dokter" value={{$konsultasi[0]->dokter_id}}>
+          <div class="msg-container col-md-12 col-xs-12">
+              @foreach ($konsultasi as $item)
+                <div class="col-md-12 col-xs-12">
+                    <div class="chat-msg {{$item->from == "pasien" ? "box-blue" : "box-gray"}}">
+                        <img class="profile" ng-src=" " />
+                        <p>{{$item->text}}</p>
+                    </div>
+                </div>
+              @endforeach
             </div>
-          </div>
 
-          <div class="form-group">
-            <textarea class="form-control" id="text" name="text" rows="5" placeholder="Message (Optional)"></textarea>
-            <div class="validate"></div>
-          </div>
-          {{-- <div class="mb-3">
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message" style="background-color: red">Permintaan kamu sedang diperoses, harap sabar ya!. Thank you!</div>
-          </div> --}}
-          <div class="text-center" >
-            <button type="submit" style="background-color: red">Konsultasi</button>
-          </div>
+            <div class="col-md-12 col-xs-12 chat-bottom-bar" id="chat-send">
+                <div class="input-group" >
+                <input type="text" class="form-control input-sm chat-input" name="text" placeholder="Ketik disini..."/>
+                <span class="input-group-btn">
+                    <button class="btn btn-sm chat-submit-button" id="send-chat-btn" style="background-color:lightgreen; color:black">
+                        Kirim Chat
+                    </button>
+                </span>
+                </div>
+            </div>
+          @else
+          <div class="form-row">
+            <div class="col-md-4 form-group">
+                <select name="dokter" id="dokter" class="form-control">
+                  <option value="">Pilih Dokter</option>
+                  @foreach ($dokters as $dokter)
+                  <option value="{{$dokter->id}}">{{ $dokter->user->name }}</option>
+                  @endforeach
+                </select>
+                <div class="validate"></div>
+              </div>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" id="text" name="text" rows="5" placeholder="Message (Optional)"></textarea>
+                <div class="validate"></div>
+              </div>
+              <div class="text-center" >
+                <button type="submit" style="background-color: red">Konsultasi</button>
+              </div>
+          @endif
         </form>
 
       </div>
+
+
+
+
+
     </section><!-- End Appointment Section -->
-   
+
   <!-- ======= Footer ======= -->
   <footer id="footer">
 
@@ -143,7 +167,7 @@
               data[this.name] = this.value;
           });
           $.post("{{route('konsultasi.store')}}", data).done(data => {
-              alert("berhasil tambah dokter")
+              alert("konsultasi terkirim")
               location.reload()
           }).fail((err) => {
               alert("gagal");

@@ -19,7 +19,13 @@
             <div class="col-md-12">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Nama Pasien</label>
-                <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama Pasien">
+                <select name="nama_pasien" id="nama_pasien" class="form-control form-control-sm">
+                  <option value="">-- Pilih Pasien --</option>
+                  @foreach ($pasiens as $pasien)
+                      <option value="{{$pasien->id}}">{{$pasien->name}}</option>
+                  @endforeach
+                </select>
+                {{-- <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama Pasien"> --}}
               </div>
             </div>
           </div>
@@ -28,7 +34,7 @@
             <div class="col-md-12">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Nama Dokter</label>
-                <input type="text" name="dokter" id="dokter" class="form-control form-control-sm" placeholder="Nama Dokter">
+                <input type="text" name="nama_dokter" id="nama_dokter" class="form-control form-control-sm" value="{{auth()->user()->name}}" readonly>
               </div>
             </div>
           </div>
@@ -44,7 +50,7 @@
             <div class="col-md-6">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Tanggal Rekam Medis</label>
-                <input type="date" name="tanggal-rm" id="tanggal-rm" class="form-control form-control-sm">
+                <input type="date" name="tanggal_rm" id="tanggal_rm" class="form-control form-control-sm">
               </div>
             </div>
           </div>

@@ -92,15 +92,23 @@
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               {{ Auth::user()->name }} <span class="caret"></span></a>
             <ul>
-              <li><a href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                              document.getElementById('logout-form').submit();">
-                 {{ __('Logout') }}
-             </a>
+              <li>
+                @if(auth()->user()->role == 'admin')
+                <a href="{{ route('admin.index') }}">
+                 {{ __('Logout') }}</a>
+                @elseif(auth()->user()->role == 'dokter')
+                <a href="{{ route('dokter.dokter') }}">
+                  {{ __('Dashboard') }}</a>
+                @endif
+              </li>
+              <li>
+                <a href="{{ route('logout') }}"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 {{ __('Logout') }}</a>
 
-             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                 @csrf
-             </form></li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+              </li>
             </ul>
           </li>
           @endguest

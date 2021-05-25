@@ -95,7 +95,7 @@
               <li>
                 @if(auth()->user()->role == 'admin')
                 <a href="{{ route('admin.index') }}">
-                 {{ __('Logout') }}</a>
+                 {{ __('Dashboard') }}</a>
                 @elseif(auth()->user()->role == 'dokter')
                 <a href="{{ route('dokter.dokter') }}">
                   {{ __('Dashboard') }}</a>

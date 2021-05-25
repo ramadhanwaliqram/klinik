@@ -363,7 +363,6 @@
 </div>
 
 {{-- Modal --}}
-@include('admin.jadwal.modals._jadwal')
 
                 </div>
                 <!-- /.container-fluid -->

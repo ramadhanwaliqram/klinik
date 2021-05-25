@@ -57,7 +57,10 @@ class DataObatController extends Controller
             "tanggal_kadaluarsa" => $request["tanggal_kadaluarsa"],
         ]);
 
-        return response()->json("sukses");
+        return response()
+           ->json([
+               'success' => 'Data berhasil ditambah.',
+        ]);
     }
 
     /**

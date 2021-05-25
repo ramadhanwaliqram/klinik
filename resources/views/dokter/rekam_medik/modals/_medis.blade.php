@@ -10,12 +10,10 @@
         </button>
       </div>
       <div class="modal-body p-4">
-        <form id="form-medis" action="">
+        <form id="form-medis">
           @csrf
-
+          @method('POST')
           <div class="row">
-            <input type="hidden" name="hidden_id" id="hidden_id" class="form-control form-control-sm">
-
             <div class="col-md-12">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Nama Pasien</label>
@@ -71,7 +69,18 @@
           </div>
 
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group bmd-form-group">
+                <label class="bmd-label-floating">Obat</label>
+                <select name="obat[]" id="obat" multiple>
+                  <option value="">-- Pilih --</option>
+                  @foreach ($obats as $obat)
+                      <option value="{{$obat->id}}">{{$obat->nama_obat}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Catatan</label>
                 <textarea type="text" name="catatan" id="catatan" class="form-control form-control-sm" placeholder="Catatan"></textarea>
@@ -83,7 +92,9 @@
             <div class="col-md-12">
               <div class="d-flex justify-content-end align-items-center">
                 <div>
-                  <button type="submit" id="button" class="btn btn-sm btn-success">Simpan</button>
+                  <input type="hidden" name="hidden_id" id="hidden_id">
+                  <input type="hidden" id="action" val="add">
+                  <input type="submit" class="btn btn-sm btn-success" value="Simpan" id="btn">
                   <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Batal</button>
                 </div>
               </div>

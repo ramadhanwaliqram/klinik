@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Dokter;
 
-use App\Models\RekamMedis;
-use App\Models\Pasien;
+use App\Models\{RekamMedis, Pasien, Obat};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,9 +15,10 @@ class RekamMedikDokterController extends Controller
      */
     public function index()
     {
+        $obats = Obat::all();
         $pasiens = Pasien::join('users', 'users.id', 'pasiens.user_id')->get();
         // dd($pasiens);
-        return view('dokter.rekam_medik.rekammedik', ['pasiens' => $pasiens]);
+        return view('dokter.rekam_medik.rekammedik', ['pasiens' => $pasiens, 'obats' => $obats]);
     }
 
     /**
@@ -39,19 +39,28 @@ class RekamMedikDokterController extends Controller
      */
     public function store(Request $request)
     {
-        $rekamMedis = RekamMedis::create([
-            "pasien_id" => $request["nama_pasien"],
-            "dokter_id" => $request["nama_dokter"],
-            "jadwal_id" => '2020-20-12',
-            "tanggal_rm" => $request["tanggal_rm"],
-            "keluhan" => $request["keluhan"],
-            "diagnosa" => $request["diagnosa"],
-            "tindakan" => $request["tindakan"],
-            "catatan" => $request["catatan"],
-            "obat" => $request["obat"],
-        ]);
+        $data = $request->all();
+        // dd($data);
 
-        return response()->json("sukses");
+        foreach ($request->obat as $obat) {
+            $obat = collect($data['obat']);
+            RekamMedis::create([
+                "pasien_id" => $data["nama_pasien"],
+                "dokter_id" => auth()->user()->id,
+                "tanggal_rm" => $data["tanggal_rm"],
+                "keluhan" => $data["keluhan"],
+                "diagnosa" => $data["diagnosa"],
+                "tindakan" => $data["tindakan"],
+                "catatan" => $data["catatan"],
+                "obat" => $obat,
+            ]);
+        }
+
+
+        return response()
+           ->json([
+               'success' => 'Data berhasil ditambah.',
+        ]);
     }
 
     /**
@@ -71,9 +80,19 @@ class RekamMedikDokterController extends Controller
      * @param  \App\Models\RekamMedis  $rekamMedis
      * @return \Illuminate\Http\Response
      */
-    public function edit(RekamMedis $rekamMedis)
+    public function edit($id)
     {
-        //
+        $data = RekamMedis::find($id);
+
+        return response()
+            ->json([
+                'pasien_id'             => $data->pasien_id,
+                'petugas'             => $data->nama_obat,
+                'stok'                  => $data->stok,
+                'jenis'                 => $data->jenis,
+                'harga'                 => $data->harga,
+                'tanggal_kadaluarsa'    => $data->tanggal_kadaluarsa,
+        ]);
     }
 
     /**
@@ -94,8 +113,9 @@ class RekamMedikDokterController extends Controller
      * @param  \App\Models\RekamMedis  $rekamMedis
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RekamMedis $rekamMedis)
+    public function destroy($id)
     {
-        //
+        $rm = RekamMedis::find($id);
+        $rm->delete();
     }
 }

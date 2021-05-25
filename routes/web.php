@@ -63,9 +63,15 @@ Route::namespace('Dokter')
     ->group(function () {
         Route::get('/dokter', 'DokterController@index')
             ->name('dokter');
-        Route::get('/rekam-medis-dokter','RekamMedikDokterController@index')->name('rekam-medis');
 
-      
+        //Rekam Medis
+        Route::get('/rekam-medis-dokter','RekamMedikDokterController@index')->name('rekam-medis');
+        Route::post('/rekam-medis-dokter', "RekamMedikDokterController@store")->name("rekam-medis-add");
+        Route::get('/dokter/rekam-medis-dokter/{id}', 'RekamMedikDokterController@edit');
+        Route::post('/dokter/rekam-medis-dokter/update', 'RekamMedikDokterController@update')->name('rekam-medis.rekam-medis-update');
+        Route::get('/dokter/rekam-medis-dokter/hapus/{id}', "RekamMedikDokterController@destroy")->name("rekam-medis-delete");
+
+        Route::get('/dokter-jadwal','JadwalDokterController@index')->name('jadwal-dokter');
 
         Route::get('/konsultasi-dokter', 'KonsultasiDokterController@index')->name('konsultasi-dokter');
         Route::get('/konsul/{pasien_id}', 'KonsultasiDokterController@show')->name('chat');

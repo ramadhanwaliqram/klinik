@@ -21,9 +21,9 @@ class KonsultasiController extends Controller
      */
     public function index()
     {
-        $dokters = Dokter::join('users', 'users.id', 'dokters.user_id')->get();
-        // dd($dokters);
-        return view('konsultasi', ['dokters' => $dokters]);
+        $dokters = Dokter::all();
+        $konsultasi = Konsultasi::where("pasien_id",auth()->user()->pasien->id)->get();
+        return view('konsultasi', ['dokters' => $dokters, "konsultasi" => $konsultasi]);
     }
 
     /**
@@ -47,7 +47,8 @@ class KonsultasiController extends Controller
             'text'      => $request['text'],
             'from'      => 'pasien',
             'dokter_id' => $request['dokter'],
-            'pasien_id' => auth()->user()->id
+            'pasien_id' => auth()->user()->pasien->id,
+            "from" => "pasien"
         ]);
 
         return response()

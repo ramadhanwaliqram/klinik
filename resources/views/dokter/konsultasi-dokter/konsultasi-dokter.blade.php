@@ -326,13 +326,13 @@
                         <select class="custom-select" id="choise-pasien">
                             <option selected>Pilih...</option>
                             @foreach ($userList as $l)
-                                <option value="{{Pasien::find(["id"=>$l->pasien_id])->first()->id ?? ''}}">{{Pasien::find(["id"=>$l->pasien_id])->first()->user->name ?? ''}}</option>
+                                <option value="{{$l->pasien_id}}">{{Pasien::find(["id"=>$l->pasien_id])->first()->user->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <!-- Content Row -->
                     <div class="row">
-                    <div class="container">
+                        <div class="container">
                             <div class="row container-fluid">
 
                             <div class="msg-container col-md-12 col-xs-12">

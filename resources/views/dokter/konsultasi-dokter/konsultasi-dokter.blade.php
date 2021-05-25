@@ -358,26 +358,18 @@
                                 </div> --}}
                             </div>
 
-                                <div class="col-md-12 col-xs-12 chat-bottom-bar" id="chat-send" style="display: none!important;">
-                                <form style="display:inherit" method="post" encrypt="multipart/form-data">
-
-                                    <div class="input-group" >
-                                    <input type="text" class="form-control input-sm chat-input" placeholder=""/>
-                                    <span class="input-group-btn mr-3 ml-3">
-                                        <label class="btn btn-sm chat-submit-button" style="background-color:white">
-                                        Kirim File
-                                            <i class="glyphicon glyphicon-paperclip"></i>
-                                            <input type="file" class="file_input"/>
-                                        </label>
-                                    </span>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-sm chat-submit-button" id="send" style="background-color:lightgreen; color:black">
+                            <div class="col-md-12 col-xs-12 chat-bottom-bar" id="chat-send" style="display: none!important;">
+                                <div class="input-group" >
+                                <input type="text" class="form-control input-sm chat-input" placeholder="Ketik disini..."/>
+                                <input type="hidden" id="hidden_id" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-sm chat-submit-button" id="send-chat-btn" style="background-color:lightgreen; color:black">
                                         Kirim Chat
-                                        </button>
-                                    </span>
-                                    </div>
-                                </form>
+                                    </button>
+                                </span>
                                 </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -476,8 +468,38 @@
         //     $('#modal-jadwal').modal('show');
         // });
 
+        $("#send-chat-btn").on("click", function () {
+            const text = $(".chat-input").val();
+            const pasien_id = $("#choise-pasien").val();
+            console.log(text, pasien_id)
+            fetch(`/konsul/${pasien_id}`, {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify({
+                    text:text,
+                    "_token": "{{ csrf_token() }}"
+                })
+            }).then(res => res.json())
+            .then(res => {
+                $(".msg-container").append(`
+                    <div class="col-md-12 col-xs-12">
+                        <div class="chat-msg  box-blue">
+                            <p>${res.text}</p>
+                        </div>
+                    </div>
+                `);
+                $(".chat-input").val("");
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+
         $("#choise-pasien").on("change", function () {
             const pasien_id =  $(this).val();
+            $("#hidden_id").val(pasien_id)
             $(".msg-container").html("");
             $("#chat-send").css("display", "block")
             fetch(`/konsul/${pasien_id}`)

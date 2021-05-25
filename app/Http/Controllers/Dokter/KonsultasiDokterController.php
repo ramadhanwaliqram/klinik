@@ -44,16 +44,18 @@ class KonsultasiDokterController extends Controller
      * @param  \Illuminate\Http\Request  $requestuestuest
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request, $pasien_id) {
         Konsultasi::create([
             'text'      => $request['text'],
-            'dokter_id' => $request['dokter'],
-            'pasien_id' => auth()->user()->id
+            'dokter_id' => auth()->user()->id,
+            'pasien_id' => $pasien_id,
+            "from" => "dokter"
         ]);
 
         return response()
             ->json([
-                'success' => 'Konsultasi Berhasil.',
+                'success' => true,
+                "text" => $request["text"]
         ]);
     }
 

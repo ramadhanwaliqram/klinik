@@ -28,7 +28,14 @@ Route::namespace('Admin')
         Route::delete('/dokter', "DokterController@destroy")->name("dokter-delete");
         Route::put('/dokter', "DokterController@update")->name("dokter-edit");
 
+        //pasien
         Route::get('/data-pasien', 'DataPasienController@index')->name('data-pasien');
+        Route::get('/data-pasien/pasien/{id}', 'DataPasienController@edit');
+        Route::post('/data-pasien/pasien/update', 'DataPasienController@update')
+            ->name('data-pasien.update');
+        Route::get('/data-pasien/hapus/{id}', 'DataPasienController@destroy');
+
+
         Route::get('/data-dokter', 'DataDokterController@index')->name('data-dokter');
         Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
 

@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class KonsultasiController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,6 +45,7 @@ class KonsultasiController extends Controller
     public function store(Request $request) {
         Konsultasi::create([
             'text'      => $request['text'],
+            'from'      => 'pasien',
             'dokter_id' => $request['dokter'],
             'pasien_id' => auth()->user()->id
         ]);

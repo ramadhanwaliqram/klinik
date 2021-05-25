@@ -143,7 +143,7 @@
               data[this.name] = this.value;
           });
           $.post("{{route('konsultasi.store')}}", data).done(data => {
-              alert("berhasil tambah dokter")
+              alert("berhasil konsultasi")
               location.reload()
           }).fail((err) => {
               alert("gagal");

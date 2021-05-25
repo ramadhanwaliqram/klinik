@@ -9,7 +9,7 @@ use App\Models\{Dokter, Pasien};
 class Konsultasi extends Model
 {
     protected $fillable = [
-        'text', 'user_id', 'dokter_id', 'pasien_id'
+        'text', 'user_id', 'dokter_id', 'pasien_id', 'from'
     ];
 
     public function dokter()

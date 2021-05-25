@@ -303,9 +303,8 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dokter</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <h1 class="h3 mb-0 text-gray-800">Jadwal</h1>
+                    
                     </div>
 
                     <!-- Content Row -->
@@ -325,7 +324,7 @@
                                             <th>No. Telp</th>
                                             <th>Tanggal Jadwal</th>
                                             <th>Jam Jadwal</th>
-                                            <th>Spesialis</th>
+                                            <th>Keterangan</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -426,12 +425,155 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script>
-        $(document).ready( function () {
-            $('#order-table').DataTable();
-        } );
+        $(document).ready(function () {
 
-        $('#add').on('click', function() {
-            $('#modal-jadwal').modal('show');
+            $('#add').on('click', function () {
+               
+                $('#modal-jadwal').modal('show');
+                        $('#action').val('add');
+                            $('#form-jadwal')[0].reset();
+
+            });
+
+            // $('#create_date').dateDropper({
+            //     theme: 'leaf',
+            //     format: 'd-m-Y'
+            // });
+
+            // $('#order-table').DataTable();
+
+            $('#order-table').DataTable({
+                processing: true,
+                serverSide: true,
+                
+                ajax: {
+                    url: "{{ route('admin.data-jadwal') }}",
+                },
+                columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'no_phone',
+                    name: 'no_phone'
+                },
+                {
+                    data: 'tanggal_jadwal',
+                    name: 'tanggal_jadwal'
+                },
+                {
+                    data: 'jam',
+                    name: 'jam'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                }
+                ]
+            });
+
+            $('#form-jadwal').on('submit', function (event) {
+                event.preventDefault();
+
+                var url = '';
+                var text ='';
+                if ($('#action').val() == 'add') {
+                    url = "{{ route('admin.jadwal.add') }}";
+                    text = "Data berhasil ditambah";
+
+                }
+
+                if ($('#action').val() == 'edit') {
+                    url = "{{ route('admin.jadwal.jadwal-update') }}";
+                    text = "Data berhasil diupdate";
+
+                }
+
+                var formData = new FormData($('#form-jadwal')[0]);
+                
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (data) {
+                        var html = ''
+                        if (data.errors) {
+                            html = data.errors[0];
+                            $('#community_name').addClass('is-invalid');
+                            $('#vm').addClass('is-invalid');
+                        }
+
+                        if (data.success) {
+                        $('#modal-jadwal').modal('hide')
+                        $('#order-table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function(errors){
+                        toastr.error(errors);
+                        
+                    }
+                });
+            });
+
+            $(document).on('click', '.edit', function () {
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: '/jadwal-dokter/jadwal/'+id,
+                    dataType: 'JSON',
+                    success: function (data) {
+                        console.log(data);
+                        $('#action').val('edit');
+                        $('#name').val(data.data[0].dok_id);
+                        $('#no_telp').val(data.data[0].no_phone);
+                        $('#tanggal_jadwal').val(data.data[0].tanggal_jadwal);
+                        $('#jam').val(data.data[0].jam);
+                        $('#nama_jadwal').val(data.data[0].nama_jadwal);
+                        $('#keterangan').val(data.data[0].keterangan);
+                        $('#hidden_id').val(data.data[0].id);
+                        $('.btn-boy')
+                            .removeClass('btn-success')
+                            .addClass('btn-info')
+                            .val('Update');
+                        $('#modal-jadwal').modal('show');
+                    }
+                });
+            });
+
+            var user_id;
+            $(document).on('click', '.delete', function () {
+                user_id = $(this).attr('id');
+                $('#ok_button').text('Hapus');
+                $('#confirmModal').modal('show');
+            });
+
+            $('#ok_button').click(function () {
+                $.ajax({
+                    url: '/jadwal/hapus/'+user_id,
+                    beforeSend: function () {
+                        $('#ok_button').text('Menghapus...');
+                    }, success: function (data) {
+                        setTimeout(function () {
+                            $('#confirmModal').modal('hide');
+                            $('#order-table').DataTable().ajax.reload();
+                            // toastr.success('Data berhasil dihapus');
+                            Swal.fire('Sukses!', 'Data berhasi dihapus!', 'success');
+                        }, 1000);
+                    }
+                });
+            });
+
         });
     </script>
 

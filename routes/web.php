@@ -31,7 +31,15 @@ Route::namespace('Admin')
         Route::get('/data-pasien', 'DataPasienController@index')->name('data-pasien');
         Route::get('/data-dokter', 'DataDokterController@index')->name('data-dokter');
         Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
-        Route::get('/data-jadwal', 'DataJadwalController@index')->name('data-jadwal');
+
+
+        //jadwal
+        Route::get('/data-jadwal','DataJadwalController@index')->name('data-jadwal');
+        Route::post('/jadwal-dokter/jadwal/add', 'DataJadwalController@store')->name('jadwal.add');
+        Route::get('/jadwal-dokter/jadwal/{id}', 'DataJadwalController@edit');
+        Route::post('/jadwal-dokter/jadwal/update', 'DataJadwalController@update')
+            ->name('jadwal.jadwal-update');
+        Route::get('/jadwal/hapus/{id}', 'DataJadwalController@destroy');
 
 });
 
@@ -42,7 +50,9 @@ Route::namespace('Dokter')
         Route::get('/dokter', 'DokterController@index')
             ->name('dokter');
         Route::get('/rekam-medis-dokter','RekamMedikDokterController@index')->name('rekam-medis');
-        Route::get('/jadwal-dokter','JadwalDokterController@index')->name('jadwal-dokter');
+
+      
+
         Route::get('/konsultasi-dokter', 'KonsultasiDokterController@index')->name('konsultasi-dokter');
         Route::get('/konsul/{pasien_id}', 'KonsultasiDokterController@show')->name('chat');
         Route::post('/konsul/{pasien_id}', 'KonsultasiDokterController@store')->name('send-konsul');

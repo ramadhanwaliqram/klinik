@@ -387,21 +387,18 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div id="confirmModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+                    <h4>Konfirmasi</h4>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">
+                    <h5 align="center" id="confirm">Apakah anda yakin ingin menghapus data ini?</h5>
+                </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button type="button" name="ok_button" id="ok_button" class="btn btn-sm btn-outline-danger">Hapus</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Batal</button>
                 </div>
             </div>
         </div>
@@ -425,12 +422,163 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script>
-        $(document).ready( function () {
-            $('#order-table').DataTable();
-        });
+        $('#order-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('admin.data-obat') }}",
+                    "complete": function(xhr, responseText){
+                        console.log(xhr);
+                        console.log(responseText); //*** responseJSON: Array[0]
+                    }
+                },
+                columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'nama_obat',
+                    name: 'nama_obat'
+                },
+                {
+                    data: 'stok',
+                    name: 'stok'
+                },
+                {
+                    data: 'jenis',
+                    name: 'jenis'
+                },
+                {
+                    data: 'harga',
+                    name: 'harga'
+                },
+                {
+                    data: 'tanggal_kadaluarsa',
+                    name: 'tanggal_kadaluarsa'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                },
+                ]
+            });
 
         $('#add').on('click', function() {
             $('#modal-obat').modal('show');
+        });
+    </script>
+
+    <script>
+        $(document).ready( function () {
+            $('#form-obat').on('submit', function (event) {
+                event.preventDefault();
+
+                var url = '';
+                if ($('#action').val() == 'add') {
+                    url = "{{ route('admin.obat-add') }}";
+                }
+
+                if ($('#action').val() == 'edit') {
+                    url = "{{ route('admin.data-obat.obat-update') }}";
+                }
+
+                $('#btn').prop('disabled', true);
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        var html = ''
+                        if (data.errors) {
+                            html = data.errors[0];
+                            $('#nama_obat').addClass('is-invalid');
+                            $('#stok').addClass('is-invalid');
+                            $('#jenis').addClass('is-invalid');
+                            $('#harga').addClass('is-invalid');
+                            $('#tanggal_kadaluarsa').addClass('is-invalid');
+                            toastr.error(html);
+                            $('#btn').prop('disabled', false);
+                        }
+
+                        if (data.success) {
+                            if ($('#action').val() == 'add') {
+                                alert('Sukses!');
+                            }
+
+                            if ($('#action').val() == 'edit') {
+                                alert('Sukses!');
+                            }
+                            
+                            $('#modal-obat').modal('hide');
+                            $('#nama_obat').removeClass('is-invalid');
+                            $('#stok').removeClass('is-invalid');
+                            $('#jenis').removeClass('is-invalid');
+                            $('#harga').removeClass('is-invalid');
+                            $('#tanggal_kadaluarsa').removeClass('is-invalid');
+                            $('#form-obat')[0].reset();
+                            $('#action').val('add');
+                            $('#btn').prop('disabled', false);
+                            $('#btn')
+                                .val('Simpan');
+                            $('#order-table').DataTable().ajax.reload();
+                        }
+                        $('#form_result').html(html);
+                    },
+                    error: function(errors){
+                        toastr.error('Error');
+                        $('#btn').prop('disabled', false);
+                    }
+                });
+            });
+
+            $(document).on('click', '.edit', function () {
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: '/admin/data-obat/'+id,
+                    dataType: 'JSON',
+                    success: function (data) {
+                        $('.modal-obat').html('Edit Data Obat')
+                        $('#action').val('edit');
+                        $('#nama_obat').val(data.nama_obat);
+                        $('#stok').val(data.stok);
+                        $('#jenis').val(data.jenis);
+                        $('#harga').val(data.harga);
+                        $('#tanggal_kadaluarsa').val(data.tanggal_kadaluarsa);
+                        $('#hidden_id').val(data.id);
+                        $('#btn')
+                            .removeClass('btn-success')
+                            .addClass('btn-info')
+                            .val('Update');
+                        $('#modal-obat').modal('show');
+                    }
+                });
+            });
+
+            var user_id;
+            $(document).on('click', '.delete', function () {
+                user_id = $(this).attr('id');
+                $('#ok_button').text('Hapus');
+                $('#confirmModal').modal('show');
+            });
+
+            $('#ok_button').click(function () {
+                $.ajax({
+                    url: '/admin/data-obat/hapus/'+user_id,
+                    beforeSend: function () {
+                        $('#ok_button').text('Menghapus...');
+                    }, success: function (data) {
+                        setTimeout(function () {
+                            $('#confirmModal').modal('hide');
+                            $('#order-table').DataTable().ajax.reload();
+                            // toastr.success('Data berhasil dihapus');
+                            Swal.fire('Sukses!', 'Data berhasi dihapus!', 'success');
+                        }, 1000);
+                    }
+                });
+            });
         });
     </script>
 

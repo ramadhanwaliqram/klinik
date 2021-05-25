@@ -30,8 +30,15 @@ Route::namespace('Admin')
 
         Route::get('/data-pasien', 'DataPasienController@index')->name('data-pasien');
         Route::get('/data-dokter', 'DataDokterController@index')->name('data-dokter');
-        Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
         Route::get('/data-jadwal', 'DataJadwalController@index')->name('data-jadwal');
+        
+        // Obat
+        Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
+        Route::post('/data-obat', "DataObatController@store")->name("obat-add");
+        Route::get('/admin/data-obat/{id}', 'DataObatController@edit');
+        Route::post('/admin/data-obat/update', 'DataObatController@update')->name('data-obat.obat-update');
+        Route::get('/admin/data-obat/hapus/{id}', "DataObatController@destroy")->name("obat-delete");
+
 
 });
 

@@ -64,6 +64,6 @@ Route::resource('konsultasi', 'KonsultasiController');
 Route::get('/rekam-medis', 'RekamMedisController@index')->name('rekam-medis');
 Route::get('/apotek', 'ObatController@index')->name('apotek');
 Route::get('/konsultasi', 'KonsultasiController@index')->name('konsultasi');
-Route::get('/tagihan', 'ObatController@index')->name('tagihan');
+Route::get('/tagihan', 'TagihanController@index')->name('tagihan');
 
 // Route::get('/dokter', 'DokterController@index')->name('dokter');

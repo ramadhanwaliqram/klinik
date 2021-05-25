@@ -65,7 +65,7 @@
           <li class="drop-down"><a href="">Apotek</a>
             <ul>
             <li><a href="{{route('apotek')}}">Apotek</a></li>
-            <li><a href="">Tagihan</a></li>
+            <li><a href="{{route('tagihan')}}">Tagihan</a></li>
             </ul>
           </li>
           <li><a href="{{route('rekam-medis')}}">Rekam Medis</a></li>

@@ -44,6 +44,7 @@ Route::namespace('Dokter')
         Route::get('/rekam-medis-dokter','RekamMedikDokterController@index')->name('rekam-medis');
         Route::get('/jadwal-dokter','JadwalDokterController@index')->name('jadwal-dokter');
         Route::get('/konsultasi-dokter', 'KonsultasiDokterController@index')->name('konsultasi-dokter');
+        Route::get('/konsul/{pasien_id}', 'KonsultasiDokterController@show')->name('chat');
 });
 
 Route::namespace('Pasien')
@@ -52,8 +53,8 @@ Route::namespace('Pasien')
     ->group(function () {
         Route::get('/pasien', 'PasienController@index')
             ->name('pasien');
-            
-            
+
+
         });
 
 Route::resource('konsultasi', 'KonsultasiController');

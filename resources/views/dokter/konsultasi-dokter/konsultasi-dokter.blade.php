@@ -1,3 +1,7 @@
+<?php
+ use App\Models\Pasien;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -317,13 +321,13 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Pilih Pasien</label>
+                            <label class="input-group-text" for="choise-pasien">Pilih Pasien</label>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect01">
+                        <select class="custom-select" id="choise-pasien">
                             <option selected>Pilih...</option>
-                            <option value="1">Nami</option>
-                            <option value="2">Kagura</option>
-                            <option value="3">Selena</option>
+                            @foreach ($userList as $l)
+                                <option value="{{Pasien::find(["id"=>$l->pasien_id])->first()->id}}">{{Pasien::find(["id"=>$l->pasien_id])->first()->user->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <!-- Content Row -->
@@ -332,7 +336,7 @@
                             <div class="row container-fluid">
 
                             <div class="msg-container col-md-12 col-xs-12">
-                                <div class="col-md-12 col-xs-12">
+                                {{-- <div class="col-md-12 col-xs-12">
                                     <div class="chat-msg box-blue">
                                         <img class="profile" ng-src=" " />
                                         <p>Content</p>
@@ -351,60 +355,20 @@
                                             <span class="date">Fecha</span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="chat-msg box-blue">
-                                        <img class="profile" ng-src=" " />
-                                        <p>Content</p>
-                                        <div class="chat-msg-author">
-                                            <strong>Invite</strong>&nbsp;
-                                            <span class="date">Fecha</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="chat-msg box-gray">
-                                        <img class="profile" ng-src=" " />
-                                        <p>Content</p>
-                                        <div class="chat-msg-author">
-                                            <strong>Rudman</strong>&nbsp;
-                                            <span class="date">Fecha</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="chat-msg box-blue">
-                                        <img class="profile" ng-src=" " />
-                                        <p>Content</p>
-                                        <div class="chat-msg-author">
-                                            <strong>Invite</strong>&nbsp;
-                                            <span class="date">Fecha</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="chat-msg box-gray">
-                                        <img class="profile" ng-src=" " />
-                                        <p>Content</p>
-                                        <div class="chat-msg-author">
-                                            <strong>Rudman</strong>&nbsp;
-                                            <span class="date">Fecha</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div> --}}
                             </div>
 
-                                <div class="col-md-12 col-xs-12 chat-bottom-bar">
+                                <div class="col-md-12 col-xs-12 chat-bottom-bar" id="chat-send" style="display: none!important;">
                                 <form style="display:inherit" method="post" encrypt="multipart/form-data">
-                                    
+
                                     <div class="input-group" >
                                     <input type="text" class="form-control input-sm chat-input" placeholder=""/>
-                                    <span class="input-group-btn mr-3 ml-3"> 
+                                    <span class="input-group-btn mr-3 ml-3">
                                         <label class="btn btn-sm chat-submit-button" style="background-color:white">
                                         Kirim File
                                             <i class="glyphicon glyphicon-paperclip"></i>
                                             <input type="file" class="file_input"/>
-                                        </label>        
+                                        </label>
                                     </span>
                                     <span class="input-group-btn">
                                         <button class="btn btn-sm chat-submit-button" id="send" style="background-color:lightgreen; color:black">
@@ -495,7 +459,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-   
+
 
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
@@ -504,13 +468,35 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script>
-        $(document).ready( function () {
-            $('#order-table').DataTable();
-        } );
+        // $(document).ready( function () {
+        //     $('#order-table').DataTable();
+        // } );
 
         // $('#add').on('click', function() {
         //     $('#modal-jadwal').modal('show');
         // });
+
+        $("#choise-pasien").on("change", function () {
+            const pasien_id =  $(this).val();
+            $(".msg-container").html("");
+            $("#chat-send").css("display", "block")
+            fetch(`/konsul/${pasien_id}`)
+            .then(res => res.json())
+            .then(res => {
+                res.map(d => {
+                    $(".msg-container").append(`
+                    <div class="col-md-12 col-xs-12">
+                        <div class="chat-msg ${d.from === "dokter" ? "box-blue" : "box-gray"}">
+                            <p>${d.text}</p>
+                        </div>
+                    </div>
+                    `);
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
     </script>
 
 </body>

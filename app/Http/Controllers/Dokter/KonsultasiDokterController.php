@@ -47,7 +47,7 @@ class KonsultasiDokterController extends Controller
     public function store(Request $request, $pasien_id) {
         Konsultasi::create([
             'text'      => $request['text'],
-            'dokter_id' => auth()->user()->id,
+            'dokter_id' => auth()->user()->dokter->id,
             'pasien_id' => $pasien_id,
             "from" => "dokter"
         ]);

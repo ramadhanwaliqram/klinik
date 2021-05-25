@@ -44,9 +44,11 @@ class DokterController extends Controller
      * @param  \App\Models\Dokter  $dokter
      * @return \Illuminate\Http\Response
      */
-    public function show(Dokter $dokter)
+    public function show($dokter_id)
     {
-        //
+        $dokter = Dokter::find(["id" => $dokter_id])->first();
+        $user = User::find(["id" => $dokter->user_id])->first();
+        return response()->json(["dokter" => $dokter, "user" => $user]);
     }
     /**
      * Update the specified resource in storage.
@@ -55,9 +57,20 @@ class DokterController extends Controller
      * @param  \App\Models\Dokter  $dokter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Dokter $dokter)
+    public function update(Request $request)
     {
-        return response()->json(["update" => "ok"]);
+        $user = Dokter::where("id", $request["hidden_id"])->first();
+        $dokter = Dokter::where("id", $request["hidden_id"])->update([
+            "spesialis" => $request["spesialis"],
+            "alamat" => $request["alamat"],
+            "tanggal_lahir" => $request["tanggal-lahir"],
+            "jenis_kelamin" => $request["gender"],
+        ]);
+        User::where("id", $user->user_id)->update([
+            "name" => $request["nama"],
+            "no_phone" => $request["no-telp"]
+        ]);
+        return response()->json(["success" => true]);
 
     }
 
@@ -67,8 +80,11 @@ class DokterController extends Controller
      * @param  \App\Models\Dokter  $dokter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        return response()->json(["destroy" => "ok"]);
+        $dokter = Dokter::find(["id"=>$id])->first();
+        User::where("id", $dokter->user_id)->delete();
+        $dokter->delete();
+        return response()->json(["success" => true]);
     }
 }

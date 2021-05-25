@@ -436,8 +436,6 @@
                 ajax: {
                     url: "{{ route('admin.data-dokter') }}",
                     "complete": function(xhr, responseText){
-                        console.log(xhr);
-                        console.log(responseText); //*** responseJSON: Array[0]
                     }
                 },
                 columns: [
@@ -487,18 +485,93 @@
                 $.each($(this).serializeArray(), function() {
                     data[this.name] = this.value;
                 });
-                $.post("{{route('admin.dokter-add')}}", data).done(data => {
-                    alert("berhasil tambah dokter")
-                }).fail((err) => {
-                   alert("gagal");
-                })
-            })
 
-        } );
+                console.log(data.send_type)
+                if(data.send_type === "add"){
+                    $.post("{{route('admin.dokter-add')}}", data)
+                    .done(data => {
+                        alert("berhasil tambah dokter")
+                        $('#order-table').DataTable().ajax.reload();
+                        $('#modal-dokter').modal('hide');
+                        $("#hidden_id").val("")
+                        $("#nama").val("")
+                        $("#tanggal-lahir").val("")
+                        $("#email").val("")
+                        $("#spesialis").val("")
+                        $("#alamat").val("")
+                        $("#gender").val("")
+                        $("#no-telp").val("")
+                    }).fail((err) => {
+                    alert("gagal");
+                    })
+                }else{
+                    $.post("/edit-dokter", data).done(data => {
+                        alert("berhasil edit dokter")
+                        console.log(data);
+                        $('#order-table').DataTable().ajax.reload();
+                        $('#modal-dokter').modal('hide');
+                        $("#hidden_id").val("")
+                        $("#nama").val("")
+                        $("#tanggal-lahir").val("")
+                        $("#email").val("")
+                        $("#spesialis").val("")
+                        $("#alamat").val("")
+                        $("#gender").val("")
+                        $("#no-telp").val("")
+                    }).fail((err) => {
+                    alert("gagal");
+                    })
+
+                }
+
+            })
+        });
 
         $('#add').on('click', function() {
+            $("#username").parent().parent().parent().css("display", "flex");
             $('#modal-dokter').modal('show');
+            $("#email").attr("disabled", false)
+            $('#send_type').val('add');
+            $("#hidden_id").val("")
+            $("#hidden_id").val("")
+            $("#nama").val("")
+            $("#tanggal-lahir").val("")
+            $("#email").val("")
+            $("#spesialis").val("")
+            $("#alamat").val("")
+            $("#gender").val("")
+            $("#no-telp").val("")
         });
+
+        $(document).on("click", ".edit", function(){
+            $.ajax("/dokter/"+$(this).attr("id"))
+            .done(data => {
+                $('#send_type').val('edit');
+                $("#username").parent().parent().parent().css("display", "none");
+                $('#modal-dokter').modal('show');
+                $("#email").attr("disabled", true)
+                $("#hidden_id").val(data.dokter.id)
+                $("#nama").val(data.user.name)
+                $("#tanggal-lahir").val(data.dokter.tanggal_lahir)
+                $("#email").val(data.user.email)
+                $("#spesialis").val(data.dokter.spesialis)
+                $("#alamat").val(data.dokter.alamat)
+                $("#gender").val(data.dokter.jenis_kelamin)
+                $("#no-telp").val(data.user.no_phone)
+            }).fail((err) => {
+                alert("gagal");
+            })
+        })
+
+        $(document).on("click", ".delete", function(){
+            $.ajax("/delete-dokter/"+$(this).attr("id"))
+            .done(data => {
+                $('#order-table').DataTable().ajax.reload();
+                alert("berhasil hapus dokter")
+            }).fail((err) => {
+                alert("gagal");
+            })
+        })
     </script>
 
 </body>

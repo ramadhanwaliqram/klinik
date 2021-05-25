@@ -14,6 +14,7 @@
           @csrf
           <div class="row">
             <input type="hidden" name="hidden_id" id="hidden_id" class="form-control form-control-sm">
+            <input type="hidden" name="send_type" id="send_type" class="form-control form-control-sm">
 
             <div class="col-md-12">
               <div class="form-group bmd-form-group">

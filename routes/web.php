@@ -37,7 +37,13 @@ Route::namespace('Admin')
 
 
         Route::get('/data-dokter', 'DataDokterController@index')->name('data-dokter');
+      
+        // Obat
         Route::get('/data-obat', 'DataObatController@index')->name('data-obat');
+        Route::post('/data-obat', "DataObatController@store")->name("obat-add");
+        Route::get('/admin/data-obat/{id}', 'DataObatController@edit');
+        Route::post('/admin/data-obat/update', 'DataObatController@update')->name('data-obat.obat-update');
+        Route::get('/admin/data-obat/hapus/{id}', "DataObatController@destroy")->name("obat-delete");
 
 
         //jadwal
@@ -81,6 +87,6 @@ Route::resource('konsultasi', 'KonsultasiController');
 Route::get('/rekam-medis', 'RekamMedisController@index')->name('rekam-medis');
 Route::get('/apotek', 'ObatController@index')->name('apotek');
 Route::get('/konsultasi', 'KonsultasiController@index')->name('konsultasi');
-Route::get('/tagihan', 'TagihanController@index')->name('tagihan');
+Route::get('/tagihan', 'ObatController@index')->name('tagihan');
 
 // Route::get('/dokter', 'DokterController@index')->name('dokter');

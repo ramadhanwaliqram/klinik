@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dokter;
 
 use App\Models\RekamMedis;
+use App\Models\Pasien;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,8 +16,9 @@ class RekamMedikDokterController extends Controller
      */
     public function index()
     {
-        //
-        return view('dokter.rekam_medik.rekammedik');
+        $pasiens = Pasien::join('users', 'users.id', 'pasiens.user_id')->get();
+        // dd($pasiens);
+        return view('dokter.rekam_medik.rekammedik', ['pasiens' => $pasiens]);
     }
 
     /**
@@ -37,7 +39,19 @@ class RekamMedikDokterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rekamMedis = RekamMedis::create([
+            "pasien_id" => $request["nama_pasien"],
+            "dokter_id" => $request["nama_dokter"],
+            "jadwal_id" => '2020-20-12',
+            "tanggal_rm" => $request["tanggal_rm"],
+            "keluhan" => $request["keluhan"],
+            "diagnosa" => $request["diagnosa"],
+            "tindakan" => $request["tindakan"],
+            "catatan" => $request["catatan"],
+            "obat" => $request["obat"],
+        ]);
+
+        return response()->json("sukses");
     }
 
     /**

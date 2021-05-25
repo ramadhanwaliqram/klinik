@@ -28,6 +28,8 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="plugins/css/style.css">
+
 
   <!-- =======================================================
   * Template Name: Medilab - v2.1.1
@@ -65,7 +67,7 @@
           <li class="drop-down"><a href="">Apotek</a>
             <ul>
             <li><a href="{{route('apotek')}}">Apotek</a></li>
-            <li><a href="">Tagihan</a></li>
+            <li><a href="{{route('tagihan')}}">Tagihan</a></li>
             </ul>
           </li>
           <li><a href="{{route('rekam-medis')}}">Rekam Medis</a></li>
@@ -84,7 +86,7 @@
               @endif
             </ul>
           </li>
-              
+
           @else
           <li class="drop-down">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

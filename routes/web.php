@@ -41,7 +41,11 @@ Route::namespace('Dokter')
     ->group(function () {
         Route::get('/dokter', 'DokterController@index')
             ->name('dokter');
-
+        Route::get('/rekam-medis-dokter','RekamMedikDokterController@index')->name('rekam-medis');
+        Route::get('/jadwal-dokter','JadwalDokterController@index')->name('jadwal-dokter');
+        Route::get('/konsultasi-dokter', 'KonsultasiDokterController@index')->name('konsultasi-dokter');
+        Route::get('/konsul/{pasien_id}', 'KonsultasiDokterController@show')->name('chat');
+        Route::post('/konsul/{pasien_id}', 'KonsultasiDokterController@store')->name('send-konsul');
 });
 
 Route::namespace('Pasien')
@@ -50,8 +54,8 @@ Route::namespace('Pasien')
     ->group(function () {
         Route::get('/pasien', 'PasienController@index')
             ->name('pasien');
-            
-            
+
+
         });
 
 Route::resource('konsultasi', 'KonsultasiController');
@@ -60,6 +64,6 @@ Route::resource('konsultasi', 'KonsultasiController');
 Route::get('/rekam-medis', 'RekamMedisController@index')->name('rekam-medis');
 Route::get('/apotek', 'ObatController@index')->name('apotek');
 Route::get('/konsultasi', 'KonsultasiController@index')->name('konsultasi');
-Route::get('/tagihan', 'ObatController@index')->name('tagihan');
+Route::get('/tagihan', 'TagihanController@index')->name('tagihan');
 
 // Route::get('/dokter', 'DokterController@index')->name('dokter');

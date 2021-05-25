@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dokter;
 
-use App\Models\Konsultasi;
-use App\Models\Dokter;
+use App\Models\{Konsultasi,Dokter,Pasien};
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
-class KonsultasiController extends Controller
+
+class KonsultasiDokterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +19,13 @@ class KonsultasiController extends Controller
      */
     public function index()
     {
-        $dokters = Dokter::all();
-        $konsultasi = Konsultasi::where("pasien_id",auth()->user()->pasien->id)->get();
-        return view('konsultasi', ['dokters' => $dokters, "konsultasi" => $konsultasi]);
+        $user = Auth::user();
+        $userList = DB::table('konsultasis')
+                    ->select("pasien_id")
+                    ->distinct()
+                    ->where("dokter_id", $user->dokter->id)
+                    ->get();
+        return view('dokter.konsultasi-dokter.konsultasi-dokter', ["userList"=>$userList]);
     }
 
     /**
@@ -36,17 +44,18 @@ class KonsultasiController extends Controller
      * @param  \Illuminate\Http\Request  $requestuestuest
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request, $pasien_id) {
         Konsultasi::create([
             'text'      => $request['text'],
-            'dokter_id' => $request['dokter'],
-            'pasien_id' => auth()->user()->pasien->id,
-            "from" => "pasien"
+            'dokter_id' => auth()->user()->id,
+            'pasien_id' => $pasien_id,
+            "from" => "dokter"
         ]);
 
         return response()
             ->json([
-                'success' => 'Konsultasi Berhasil.',
+                'success' => true,
+                "text" => $request["text"]
         ]);
     }
 
@@ -56,9 +65,10 @@ class KonsultasiController extends Controller
      * @param  \App\Models\Konsultasi  $konsultasi
      * @return \Illuminate\Http\Response
      */
-    public function show(Konsultasi $konsultasi)
+    public function show($pasien_id)
     {
-        //
+        $konsultasi = Konsultasi::where("dokter_id", Auth::user()->dokter->id)->where("pasien_id", $pasien_id)->get();
+        return response()->json($konsultasi);
     }
 
     /**

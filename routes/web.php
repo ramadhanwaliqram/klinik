@@ -25,8 +25,9 @@ Route::namespace('Admin')
     ->group(function () {
         Route::get('/admin', 'AdminController@index')->name('index');
         Route::post('/dokter', "DokterController@store")->name("dokter-add");
-        Route::delete('/dokter', "DokterController@destroy")->name("dokter-delete");
-        Route::put('/dokter', "DokterController@update")->name("dokter-edit");
+        Route::get('/dokter/{dokter_id}', "DokterController@show")->name("show-dokter");
+        Route::post('/edit-dokter', "DokterController@update")->name("edit-dokter");
+        Route::get('/delete-dokter/{dokter_id}', "DokterController@destroy")->name("edit-dokter");
 
         //pasien
         Route::get('/data-pasien', 'DataPasienController@index')->name('data-pasien');

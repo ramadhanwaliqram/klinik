@@ -10,16 +10,15 @@
         </button>
       </div>
       <div class="modal-body p-4">
-        <form id="form-pesan" action="">
+        <form id="form-obat" class="form-obat">
           @csrf
-
+          @method('POST')
           <div class="row">
-            <input type="hidden" name="hidden_id" id="hidden_id" class="form-control form-control-sm">
 
             <div class="col-md-12">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Nama Obat</label>
-                <input type="text" name="title" id="title" class="form-control form-control-sm" placeholder="Nama Obat">
+                <input type="text" name="nama_obat" id="nama_obat" class="form-control form-control-sm" placeholder="Nama Obat">
               </div>
             </div>
           </div>
@@ -44,13 +43,13 @@
             <div class="col-md-6">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Harga</label>
-                <input type="text" name="Harga" id="Harga" class="form-control form-control-sm" placeholder="Harga">
+                <input type="text" name="harga" id="harga" class="form-control form-control-sm" placeholder="Harga">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Tanggal Kadaluarsa</label>
-                <input type="date" name="tanggal-kadaluarsa" id="tanggal-kadaluarsa" class="form-control form-control-sm">
+                <input type="date" name="tanggal_kadaluarsa" id="tanggal_kadaluarsa" class="form-control form-control-sm">
               </div>
             </div>
           </div>
@@ -59,7 +58,9 @@
             <div class="col-md-12">
               <div class="d-flex justify-content-end align-items-center">
                 <div>
-                  <button type="submit" id="button" class="btn btn-sm btn-success">Simpan</button>
+                  <input type="hidden" name="hidden_id" id="hidden_id">
+                  <input type="hidden" id="action" val="add">
+                  <input type="submit" class="btn btn-sm btn-success" value="Simpan" id="btn">
                   <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Batal</button>
                 </div>
               </div>

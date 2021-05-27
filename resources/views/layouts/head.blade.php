@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Medical Lab</title>
+  <title>Sistem Informasi Layanan Rawat Jalan</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -57,7 +57,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo mr-auto"><a href="/">Medilab</a></h1>
+      <h1 class="logo mr-auto"><a href="/"><img src="img/pmi.png" alt=""></a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -92,15 +92,23 @@
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               {{ Auth::user()->name }} <span class="caret"></span></a>
             <ul>
-              <li><a href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                              document.getElementById('logout-form').submit();">
-                 {{ __('Logout') }}
-             </a>
+              <li>
+                @if(auth()->user()->role == 'admin')
+                <a href="{{ route('admin.index') }}">
+                 {{ __('Dashboard') }}</a>
+                @elseif(auth()->user()->role == 'dokter')
+                <a href="{{ route('dokter.dokter') }}">
+                  {{ __('Dashboard') }}</a>
+                @endif
+              </li>
+              <li>
+                <a href="{{ route('logout') }}"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                 {{ __('Logout') }}</a>
 
-             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                 @csrf
-             </form></li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+              </li>
             </ul>
           </li>
           @endguest

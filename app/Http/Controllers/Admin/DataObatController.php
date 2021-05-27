@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Obat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\DataTables;
+
 
 class DataObatController extends Controller
 {
@@ -13,8 +15,19 @@ class DataObatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = Obat::all();
+        if($request->ajax()){
+            return DataTables::of($data)
+            ->addColumn('action', function ($data) {
+                $button = '<button type="button" id="'.$data->id.'" class="edit btn btn-mini btn-info shadow-sm">Edit</button>';
+                $button .= '&nbsp;&nbsp;&nbsp;<button type="button" id="'.$data->id.'" class="delete btn btn-mini btn-danger shadow-sm">Delete</button>';
+                return $button;
+            })
+            ->addIndexColumn()
+            ->make(true);
+        }
         return view('admin.obat.obat');
     }
 
@@ -36,7 +49,18 @@ class DataObatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $obat = Obat::create([
+            "nama_obat" => $request["nama_obat"],
+            "stok" => $request["stok"],
+            "jenis" => $request["jenis"],
+            "harga" => $request["harga"],
+            "tanggal_kadaluarsa" => $request["tanggal_kadaluarsa"],
+        ]);
+
+        return response()
+           ->json([
+               'success' => 'Data berhasil ditambah.',
+        ]);
     }
 
     /**
@@ -56,9 +80,19 @@ class DataObatController extends Controller
      * @param  \App\Models\Obat  $obat
      * @return \Illuminate\Http\Response
      */
-    public function edit(Obat $obat)
+    public function edit($id)
     {
-        //
+        $data = Obat::find($id);
+
+        return response()
+            ->json([
+                'id'                    => $data->id,
+                'nama_obat'             => $data->nama_obat,
+                'stok'                  => $data->stok,
+                'jenis'                 => $data->jenis,
+                'harga'                 => $data->harga,
+                'tanggal_kadaluarsa'    => $data->tanggal_kadaluarsa,
+        ]);
     }
 
     /**
@@ -68,9 +102,20 @@ class DataObatController extends Controller
      * @param  \App\Models\Obat  $obat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Obat $obat)
+    public function update(Request $request)
     {
-        //
+        Obat::whereId($request->input('hidden_id'))->update([
+            "nama_obat" => $request["nama_obat"],
+            "stok" => $request["stok"],
+            "jenis" => $request["jenis"],
+            "harga" => $request["harga"],
+            "tanggal_kadaluarsa" => $request["tanggal_kadaluarsa"],
+        ]);
+
+        return response()
+           ->json([
+               'success' => 'Data berhasil diupdate.',
+        ]);
     }
 
     /**
@@ -79,8 +124,9 @@ class DataObatController extends Controller
      * @param  \App\Models\Obat  $obat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Obat $obat)
+    public function destroy($id)
     {
-        //
+        $obat = Obat::find($id);
+        $obat->delete();
     }
 }

@@ -58,12 +58,12 @@
 
         <div class="section-title">
           <h2>Konsultasi</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
         </div>
 
         <form action="" method="post" id="form-konsultasi" role="form" class="form-konsultasi php-email-form">
           @csrf
           @method('POST')
+
           @if (count($konsultasi))
           <input type="hidden" id="dokter" name="dokter" value={{$konsultasi[0]->dokter_id??""}}>
           <div class="msg-container col-md-12 col-xs-12">

@@ -20,7 +20,18 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/select2/css/select2.min.css" />
 
+    <style>
+        .btn i {
+            margin-right: 0px;
+        }
+
+        .select2-container {
+            width: 100% !important;
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -327,9 +338,9 @@
                                     <thead class="text-left">
                                         <tr>
                                             <th>No</th>
+                                            <th>Tanggal</th>
                                             <th>Nama Pasien</th>
                                             <th>Nama Dokter</th>
-                                            <th>Jadwal Rekam Medis</th>
                                             <th>Keluhan</th>
                                             <th>Diagnosa</th>
                                             <th>Tindakan</th>
@@ -432,14 +443,184 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+    <script type="text/javascript" src="assets/select2/js/select2.full.min.js"></script>
     <script>
         $(document).ready( function () {
-    $('#order-table').DataTable();
-} );
-$('#add').on('click', function() {
+            $('#order-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('dokter.rekam-medis') }}",
+                    "complete": function(xhr, responseText){
+                    }
+                },
+                columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'pasien_id',
+                    name: 'pasien_id'
+                },
+                {
+                    data: 'dokter_id',
+                    name: 'dokter_id'
+                },
+                {
+                    data: 'keluhan',
+                    name: 'keluhan'
+                },
+                {
+                    data: 'diagnosa',
+                    name: 'diagnosa'
+                },
+                {
+                    data: 'tindakan',
+                    name: 'tindakan'
+                },
+                {
+                    data: 'catatan',
+                    name: 'catatan'
+                },
+                {
+                    data: 'obat',
+                    name: 'obat'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                },
+                ]
+            });
+        });
+
+        $('#add').on('click', function() {
             $('#modal-medis').modal('show');
         });
+        $('#obat').select2();
+
     </script>
+
+<script>
+    $(document).ready( function () {
+        $('#form-medis').on('submit', function (event) {
+            event.preventDefault();
+
+            var url = '';
+            if ($('#action').val() == 'add') {
+                url = "{{ route('dokter.rekam-medis-add') }}";
+            }
+
+            if ($('#action').val() == 'edit') {
+                url = "{{ route('dokter.rekam-medis.rekam-medis-update') }}";
+            }
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'JSON',
+                data: $(this).serialize(),
+                success: function (data) {
+                    var html = ''
+                    if (data.errors) {
+                        html = data.errors[0];
+                        $('#nama_pasien').addClass('is-invalid');
+                        $('#nama_dokter').addClass('is-invalid');
+                        $('#keluhan').addClass('is-invalid');
+                        $('#tanggal_rm').addClass('is-invalid');
+                        $('#diagnosa').addClass('is-invalid');
+                        $('#tindakan').addClass('is-invalid');
+                        $('#obat').addClass('is-invalid');
+                        $('#catatan').addClass('is-invalid');
+                        toastr.error(html);
+                    }
+                    
+                    if (data.success) {
+                        if ($('#action').val() == 'add') {
+                            alert('Sukses!');
+                        }
+
+                        if ($('#action').val() == 'edit') {
+                            alert('Sukses!');
+                        }
+                        
+                        $('#modal-medis').modal('hide');
+                        $('#nama_pasien').removeClass('is-invalid');
+                        $('#nama_dokter').removeClass('is-invalid');
+                        $('#keluhan').removeClass('is-invalid');
+                        $('#tanggal_rm').removeClass('is-invalid');
+                        $('#diagnosa').removeClass('is-invalid');
+                        $('#tindakan').removeClass('is-invalid');
+                        $('#obat').removeClass('is-invalid');
+                        $('#catatan').removeClass('is-invalid');
+                        $('#form-medis')[0].reset();
+                        $('#action').val('add');
+                        $('#btn')
+                            .val('Simpan');
+                        $('#order-table').DataTable().ajax.reload();
+                    }
+                    $('#form_result').html(html);
+                },
+                error: function(errors){
+                    toastr.error('Error');
+                }
+            });
+        });
+
+        $(document).on('click', '.edit', function () {
+            var id = $(this).attr('id');
+            $.ajax({
+                url: '/dokter/rekam-medis-dokter/'+id,
+                dataType: 'JSON',
+                success: function (data) {
+                    $('.modal-medis').html('Edit Data')
+                    $('#action').val('edit');
+                    $('#nama_pasien').val(data.pasien_id);
+                    $('#nama_dokter').val(data.dokter_id);
+                    $('#keluhan').val(data.keluhan);
+                    $('#diagnosa').val(data.diagnosa);
+                    $('#tindakan').val(data.tindakan);
+                    $('#obat').val(data.obat);
+                    $('#catatan').val(data.catatan);
+                    $('#hidden_id').val(data.id);
+                    $('#btn')
+                        .removeClass('btn-success')
+                        .addClass('btn-info')
+                        .val('Update');
+                    $('#modal-medis').modal('show');
+                }
+            });
+        });
+
+        var user_id;
+        $(document).on('click', '.delete', function () {
+            user_id = $(this).attr('id');
+            $('#ok_button').text('Hapus');
+            $('#confirmModal').modal('show');
+        });
+
+        $('#ok_button').click(function () {
+            $.ajax({
+                url: '/dokter/rekam-medis-dokter/hapus/'+user_id,
+                beforeSend: function () {
+                    $('#ok_button').text('Menghapus...');
+                }, success: function (data) {
+                    setTimeout(function () {
+                        $('#confirmModal').modal('hide');
+                        $('#order-table').DataTable().ajax.reload();
+                        // toastr.success('Data berhasil dihapus');
+                        Swal.fire('Sukses!', 'Data berhasi dihapus!', 'success');
+                    }, 1000);
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 

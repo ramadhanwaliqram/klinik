@@ -19,8 +19,8 @@ class ObatController extends Controller
      */
     public function index()
     {
-        //
-        return view('apotek');
+        $obats = Obat::all();
+        return view('apotek', ['obats' => $obats]);
     }
 
     /**

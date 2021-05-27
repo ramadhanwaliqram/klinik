@@ -331,7 +331,6 @@
                                             <th>Tanggal Jadwal</th>
                                             <th>Jam Jadwal</th>
                                             <th>Spesialis</th>
-                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-left">
@@ -364,7 +363,6 @@
 </div>
 
 {{-- Modal --}}
-@include('admin.jadwal.modals._jadwal')
 
                 </div>
                 <!-- /.container-fluid -->

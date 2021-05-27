@@ -63,65 +63,21 @@
 
         <div class="row">
 
-          <div class="col-lg-6">
+          @foreach ($obats as $obat)
+          <div class="col-lg-6 mb-4">
             <div class="member d-flex align-items-start">
               <div class="member-info">
-                <h4>Obat Kuat</h4>
-                <span>Stok : 30</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
+                <h4>{{$obat->nama_obat}}</h4>
+                <span>Stok : {{$obat->stok}}</span>
                 <div class="social">
                   <button class=" btn btn-danger btn-rounded-circle">
-                      Beli Obat
+                      Rp.{{$obat->harga}}
                   </button>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="col-lg-6 mt-4 mt-lg-0">
-            <div class="member d-flex align-items-start">
-              <div class="member-info">
-                <h4>Paracetamol</h4>
-                <span>Stok : 20</span>
-                <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                <div class="social">
-                <button class=" btn btn-danger btn-rounded-circle">
-                      Beli Obat
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4">
-            <div class="member d-flex align-items-start">
-              <div class="member-info">
-                <h4>Bodrexin</h4>
-                <span>Stok : 30</span>
-                <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
-                <div class="social">
-                <button class=" btn btn-danger btn-rounded-circle">
-                      Beli Obat
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4">
-            <div class="member d-flex align-items-start">
-              <div class="member-info">
-                <h4>Pil Kb</h4>
-                <span>Stok : 5</span>
-                <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-                <div class="social">
-                <button class=" btn btn-danger btn-rounded-circle">
-                      Beli Obat
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          @endforeach
 
         </div>
 

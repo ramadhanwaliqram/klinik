@@ -338,9 +338,9 @@
                                     <thead class="text-left">
                                         <tr>
                                             <th>No</th>
+                                            <th>Tanggal</th>
                                             <th>Nama Pasien</th>
                                             <th>Nama Dokter</th>
-                                            <th>Jadwal Rekam Medis</th>
                                             <th>Keluhan</th>
                                             <th>Diagnosa</th>
                                             <th>Tindakan</th>
@@ -446,7 +446,57 @@
     <script type="text/javascript" src="assets/select2/js/select2.full.min.js"></script>
     <script>
         $(document).ready( function () {
-            $('#order-table').DataTable();
+            $('#order-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('dokter.rekam-medis') }}",
+                    "complete": function(xhr, responseText){
+                    }
+                },
+                columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'pasien_id',
+                    name: 'pasien_id'
+                },
+                {
+                    data: 'dokter_id',
+                    name: 'dokter_id'
+                },
+                {
+                    data: 'keluhan',
+                    name: 'keluhan'
+                },
+                {
+                    data: 'diagnosa',
+                    name: 'diagnosa'
+                },
+                {
+                    data: 'tindakan',
+                    name: 'tindakan'
+                },
+                {
+                    data: 'catatan',
+                    name: 'catatan'
+                },
+                {
+                    data: 'obat',
+                    name: 'obat'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                },
+                ]
+            });
         });
 
         $('#add').on('click', function() {
@@ -530,10 +580,9 @@
                 success: function (data) {
                     $('.modal-medis').html('Edit Data')
                     $('#action').val('edit');
-                    $('#nama_pasien').val(data.nama_pasien);
-                    $('#nama_dokter').val(data.nama_dokter);
+                    $('#nama_pasien').val(data.pasien_id);
+                    $('#nama_dokter').val(data.dokter_id);
                     $('#keluhan').val(data.keluhan);
-                    $('#tanggal_rm').val(data.tanggal_rm);
                     $('#diagnosa').val(data.diagnosa);
                     $('#tindakan').val(data.tindakan);
                     $('#obat').val(data.obat);
@@ -557,7 +606,7 @@
 
         $('#ok_button').click(function () {
             $.ajax({
-                url: '/dokter/rekam-medis-dokter/hapus'+user_id,
+                url: '/dokter/rekam-medis-dokter/hapus/'+user_id,
                 beforeSend: function () {
                     $('#ok_button').text('Menghapus...');
                 }, success: function (data) {

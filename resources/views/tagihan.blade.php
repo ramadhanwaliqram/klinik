@@ -60,20 +60,25 @@
           <h2>Tagihan Medis</h2>
         </div>
         <div class="row">
-        <div class="col-lg-6 mt-4 mt-lg-0">
-  <div class="member d-flex align-items-start">
-    <div class="member-info">
-      <h4>Tagihan Obat ( Terduga Kanker )</h4>
-      <span>2021 - 02 - 12</span>
-      <p>Dokter : Johny Mafouds</p>
-      <div class="social">
-      <button class=" btn btn-danger btn-rounded-circle">
-            Lihat Detail
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+
+        @foreach ($tagihans as $tagihan)
+          <div class="col-lg-6 mt-4 mt-lg-0">
+            <div class="member d-flex align-items-start">
+              <div class="member-info">
+                <h4>Tagihan Obat ( {{$tagihan->judul_tagihan}} )</h4>
+                <span>{{date('d-m-Y', strtotime($tagihan->created_at))}}</span>
+                <p>Dokter : {{$tagihan->name}}</p>
+                <p>Catatan : {{$tagihan->catatan}}</p>
+                <div class="social">
+                <button class=" btn btn-danger btn-rounded-circle">
+                      Rp.{{$tagihan->total_tagihan}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endforeach
+        
 
 </div>
       </div>

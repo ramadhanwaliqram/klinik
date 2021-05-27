@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Model\RekamMedis;
 
 class Obat extends Model
 {
-    protected $fillable = [
-        'nama_obat', 'stok', 'jenis', 'harga', 'tanggal_kadaluarsa'
-    ];
+    protected $table = 'obats';
+
+    public function rekamMedis(){
+        return $this->belongsToMany(RekamMedis::Class);
+    }
 }

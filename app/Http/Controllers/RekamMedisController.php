@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RekamMedis;
+use App\Models\Obat;
 use Illuminate\Http\Request;
 
 class RekamMedisController extends Controller
@@ -20,8 +21,11 @@ class RekamMedisController extends Controller
      */
     public function index()
     {
-        //
-        return view('medis');
+        $dokter = RekamMedis::join('users', 'users.id', 'rekam_medis.dokter_id')
+                            ->where('pasien_id', auth()->user()->id)->get('name')[0];
+        $rekamMedis = RekamMedis::where('pasien_id', auth()->user()->id)->get();
+        // dd($dokter);
+        return view('medis', ['rekamMedis' => $rekamMedis, 'dokter' => $dokter]);
     }
 
     /**

@@ -12,7 +12,6 @@
       <div class="modal-body p-4">
         <form id="form-medis">
           @csrf
-          @method('POST')
           <div class="row">
             <div class="col-md-12">
               <div class="form-group bmd-form-group">
@@ -39,16 +38,10 @@
           
 
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group bmd-form-group">
                 <label class="bmd-label-floating">Keluhan</label>
                 <input type="text" name="keluhan" id="keluhan" class="form-control form-control-sm" placeholder="Keluhan">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group bmd-form-group">
-                <label class="bmd-label-floating">Tanggal Rekam Medis</label>
-                <input type="date" name="tanggal_rm" id="tanggal_rm" class="form-control form-control-sm">
               </div>
             </div>
           </div>

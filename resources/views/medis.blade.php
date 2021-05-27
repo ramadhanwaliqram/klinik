@@ -60,22 +60,33 @@
           <h2>Rekam Medis</h2>
         </div>
         <div class="row">
-        <div class="col-lg-6 mt-4 mt-lg-0">
-  <div class="member d-flex align-items-start">
-    <div class="member-info">
-      <h4>Rekam Medis ( Terduga Kanker )</h4>
-      <span>2021 - 02 - 12</span>
-      <p>Dokter : Johny Mafouds</p>
-      <div class="social">
-      <button class=" btn btn-danger btn-rounded-circle">
-            Lihat Detail
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-</div>
+          @foreach ($rekamMedis as $rm)
+          <div class="col-lg-6 mt-4 mt-lg-0">
+            <div class="member d-flex align-items-start">
+              <div class="member-info">
+                <h4>{{$rm->keluhan}} ( {{$rm->diagnosa}} )</h4>
+                <span>{{date('d-m-Y', strtotime($rm->created_at))}}</span>
+                <p>Dokter : {{$dokter->name}}</p>
+                <div>
+                  <span>Catatan  : {{$rm->catatan}}</span><br>
+                  <span>Tindakan  : {{$rm->tindakan}}</span>
+                </div>
+                <span>Obat</span>
+                <ul>
+                  @foreach ($rm->obat->pluck('nama_obat') as $obb)
+                  <li>{{$obb}}</li>
+                  @endforeach
+                </ul>
+                {{-- <div class="social">
+                  <button class=" btn btn-danger btn-rounded-circle">
+                        Lihat Detail
+                  </button>
+                </div> --}}
+              </div>
+            </div>
+          </div>
+          @endforeach
+        </div>
       </div>
     </section><!-- End Appointment Section -->
    

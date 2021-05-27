@@ -63,8 +63,9 @@
         <form action="" method="post" id="form-konsultasi" role="form" class="form-konsultasi php-email-form">
           @csrf
           @method('POST')
-          @if ($konsultasi)
-          <input type="hidden" id="dokter" name="dokter" value={{$konsultasi[0]->dokter_id ?? ''}}>
+
+          @if (count($konsultasi))
+          <input type="hidden" id="dokter" name="dokter" value={{$konsultasi[0]->dokter_id??""}}>
           <div class="msg-container col-md-12 col-xs-12">
               @foreach ($konsultasi as $item)
                 <div class="col-md-12 col-xs-12">
